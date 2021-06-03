@@ -1,11 +1,4 @@
 # API
-Mặc định:
-> Prefix Url:<br>
-```ruby
-localhost:${.env.PORT}/
-ví dụ: localhost:8080/
-# Nếu có đường link ảnh (ví dụ: avatar) thì thêm tiền tố trên
-```
 > Encytype:<br>
 ```ruby
 application/json
@@ -36,25 +29,18 @@ application/json
 ```
 > Gắn Header:<br>
 ```ruby
-Bearer <token>
+không
 ```
 > Request:<br>
 ```ruby
 id: string
 {
-	"id": "PD-000001"
-}	
+	"id": "PD-000002"
+}		
 ```
 
 > Response:<br>
 ```ruby
-id: string
-name: string
-price: string
-restaurant: restaurant
-description: string
-previewUri: string (link to image file)
-isActive: boolean
 {
     "error": 200,
     "id": "PD-000002",
@@ -86,49 +72,31 @@ Bearer token
 ```
 > Request:<br>
 ```ruby
-restaurantid: string
-name: string
-price: number
-description: string
-isActive: boolean
 {
 	"restaurantid":"RE-000004",
 	"name": "Cháo",
 	"price": 20000,
 	"description": "Ngon nhất thế giới"
-}	
-```
-Điều kiện hợp lệ:<br>
-```ruby
-name: string Độ dài >= 0
-price: Mặc định = 0
-description: string  0<= độ dài <= 3000
-isActive: bool - product còn bán hay không
+}
 ```
 > Response:<br>
 ```ruby
-id: string
-name: string
-price: string
-description: string
-previewUri: string (link to image file)
-isActive: boolean
 {
     "error": 200,
-    "id": "PD-000007",
+    "id": "PD-000001",
     "name": "Cháo",
     "restaurant": {
-        "id": "RE-000004",
+        "id": "RE-000001",
         "name": "Hải sản Quảng Ninh",
         "address": "Hà Nội",
         "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
-        "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\2a532394-4854-40ee-8296-29b79a11ddaa-anhdep123.jpg",
-        "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\7ca19316-281c-4dce-9ad7-d272657c8c31-anh_20172968.jpg",
+        "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+        "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
         "isActive": true
     },
     "price": 20000,
     "description": "Ngon nhất thế giới",
-    "previewUri": "https://mighty-plains-90447.herokuapp.com/public/default-product.jpg",
+    "previewUri": "https://eat-with-friend.herokuapp.com/public/default-product.jpg",
     "isActive": true,
     "message": "OK"
 }
@@ -144,34 +112,32 @@ Bearer token
 ```
 > Request:<br>
 ```ruby
-id: string
-name: string
-price: string
-description: string
-isActive: boolean
 {
-	"id": "PD-000002",
-	"name": "Bạc xỉu gốc",
-    "price": 12000,
-    "description": "Loại caffe hơi ngon",
-    "isActive": 1
+	"id": "PD-000001",
+	"name": "Bạc xỉu",
+    	"price": 12000,
+   	"description": "Loại caffe hơi ngon",
+    	"isActive": 1
 }
 ```
 > Response:<br>
 ```ruby
-id: string
-name: string
-price: string
-description: string
-previewUri: string (link to image file)
-isActive: boolean
 {
     "error": 200,
-    "id": "PD-000002",
-    "name": "Bạc xỉu gốc",
+    "id": "PD-000001",
+    "name": "Xôi",
+    "restaurant": {
+        "id": "RE-000001",
+        "name": "Hải sản Quảng Ninh",
+        "address": "Hà Nội",
+        "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+        "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+        "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+        "isActive": true
+    },
     "price": 12000,
-    "description": "Loại caffe hơi ngon",
-    "previewUri": "localhost:8080/public/default-product.jpg",
+    "description": "Loại xôi hơi ngon",
+    "previewUri": "https://eat-with-friend.herokuapp.com/public/default-product.jpg",
     "isActive": true,
     "message": "OK"
 }
@@ -196,19 +162,22 @@ preview: file <image file>
 ```
 > Response:<br>
 ```ruby
-id: string
-name: string
-price: string
-description: string
-previewUri: string (link to image file)
-isActive: boolean
 {
     "error": 200,
-    "id": "PD-000002",
-    "name": "Bạc xỉu gốc",
+    "id": "PD-000001",
+    "name": "Xôi",
+    "restaurant": {
+        "id": "RE-000001",
+        "name": "Hải sản Quảng Ninh",
+        "address": "Hà Nội",
+        "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+        "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+        "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+        "isActive": true
+    },
     "price": 12000,
-    "description": "Loại caffe hơi ngon",
-    "previewUri": "localhost:8080/static\\bf389003-87d8-4cdf-ae3a-9a9056a1ce04-anh_20172968.jpg",
+    "description": "Loại xôi hơi ngon",
+    "previewUri": "https://eat-with-friend.herokuapp.com/static/a9290104-0ce8-4cc2-8960-fe99e2f81939-thien-nhien-dep.jpg",
     "isActive": true,
     "message": "OK"
 }
@@ -219,7 +188,7 @@ isActive: boolean
 /v1/product/delete
 `delete`
 ```
-> Header:<br>
+> chỉ nhà hàng có quyền nên có Header:<br>
 ```ruby
 Bearer token
 ```
@@ -228,7 +197,7 @@ Bearer token
 ids: Array<id: int> - Danh sách những id product cần xóa 
 ex: 
 {
-	"ids":["PD-000001","PD-000002"]
+	"ids":["PD-000005","PD-000006"]
 }
 ```
 > Response:<br>
@@ -236,9 +205,47 @@ ex:
 ids: Array<id: int> - Danh sách những id đã bị xóa
 {
     "error": 200,
-    "ids": [
-        "PD-000001",
-        "PD-000002"
+    "ids": [],
+    "message": "OK"
+}
+```
+
+## Xem danh sách product 1 nhà hàng:
+```ruby
+/v1/product/getbyrestaurantid
+`post`
+```
+>Header:<br>
+```ruby
+không
+```
+> Request:<br>
+```ruby
+{
+	"id":"RE-000004"
+}
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "products": [
+        {
+            "id": "PD-000001",
+            "name": "Bạc xỉu",
+            "price": 12000,
+            "description": "Loại caffe hơi ngon",
+            "previewUri": "https://mighty-plains-90447.herokuapp.com/static\\4b68d0a4-667b-4c2a-9393-1f3ecff4e94d-hinh-anh-thien-nhien-dep.jpg",
+            "isActive": true
+        },
+        {
+            "id": "PD-000002",
+            "name": "Xôi",
+            "price": 20000,
+            "description": "Ngon nhất thế giới",
+            "previewUri": "https://mighty-plains-90447.herokuapp.com/public/default-product.jpg",
+            "isActive": true
+        }
     ],
     "message": "OK"
 }
