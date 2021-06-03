@@ -1,6 +1,6 @@
 export default {
   throwSystemError: true,
-  urlPrefix: "https://mighty-plains-90447.herokuapp.com/",
+  urlPrefix: "https://eat-with-friend.herokuapp.com/",
   shouldAuth: true,
   timeoutToken: 3600 // second
 }
