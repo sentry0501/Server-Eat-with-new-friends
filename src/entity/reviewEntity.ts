@@ -7,7 +7,7 @@ export class ReviewEntity {
   @PrimaryGeneratedColumn("uuid") 
   id: string
 
-  @Column({type: "text", nullable: false})
+  @Column({type: "nvarchar", nullable: false})
   content: string
 
   @Column({type: "int", default: "0", nullable: false})

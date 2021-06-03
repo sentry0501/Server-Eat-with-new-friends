@@ -9,7 +9,7 @@ export class RestaurantEntity {
   @Column({type: "nvarchar", default: "", nullable: false})
   name: string
 
-  @Column({type: "text", default: "", nullable: false})
+  @Column({type: "nvarchar", nullable: false})
   description: string
 
   @Column({type: "nvarchar", default: "", nullable: true})

@@ -15,7 +15,7 @@ export class PromotionEntity {
   @Column({type: "nvarchar", default: "", nullable: false})
   name: string
 
-  @Column({type: "text", nullable: false})
+  @Column({type: "nvarchar", nullable: false})
   description: string
 
   @Column({type: "varchar", default: "", nullable: false})

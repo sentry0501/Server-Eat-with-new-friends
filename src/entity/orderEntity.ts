@@ -15,7 +15,7 @@ export class OrderEntity {
   @Column({type: "datetime", nullable: false})
   time: Date
 
-  @Column({type: "text", nullable: true})
+  @Column({type: "nvarchar", nullable: true})
   note: string
 
   @Column({type: "int", default: 0, nullable: false})
