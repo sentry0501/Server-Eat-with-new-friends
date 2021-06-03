@@ -58,18 +58,5 @@ router.put('/v1/restaurant/update',
   restaurantController.updateInfo
 )
 
-/**
- * CHEAT
- */
-router.all('/v1/cheat/restaurant/createone',
-  cheatRoleMiddleware,
-  uploadDisk.single("avatar"),
-  restaurantController.createOne
-)
-router.all('/v1/cheat/restaurant/update',
-  cheatRoleMiddleware,
-  uploadDisk.single("avatar"),
-  restaurantController.updateInfo
-)
 
 export default router;

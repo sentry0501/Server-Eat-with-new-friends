@@ -23,6 +23,7 @@ class RestaurantController extends AbstractController {
 
   public async getById(req: any, res: any, next: any) {
     try {
+      // logger.debug("json "+JSON.stringify(req.body))
       if (!req.body.id) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_INVALID_ID);
       }
@@ -90,21 +91,16 @@ class RestaurantController extends AbstractController {
       }
 
       // Handle file
-      let path;
-      if (!req.file || !req.file.path) {
-        path = null;
+      if (!req.files.avatar[0] || !req.files.avatar[0]) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_UPLOAD_AVA_ERROR);
       }
-      else {
-        path = req.file.path;
+      if (!req.files.cover[0] || !req.files.cover[0]) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_UPLOAD_COVER_ERROR);
       }
-      if (!req.file || !req.file.path) {
-        path = null;
-      }
-      else {
-        path = req.file.path;
-      }
+      const avatar = req.files.avatar[0].path;
+      const cover = req.files.cover[0].path;
 
-      const restaurant = await restaurantService.updateInfo(req.body, path,path);
+      const restaurant = await restaurantService.updateInfo(req.body, avatar,cover);
       sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new RestaurantCreateDTO(restaurant));
     }
     catch(error) {

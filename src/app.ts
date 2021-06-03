@@ -14,6 +14,9 @@ import restaurantRoute from './route/restaurantRoute';
 import groupRoute from "./route/groupRoute";
 import accountRoute from './route/accountRoute';
 import productRoute from './route/productRoute';
+import promotionRoute from './route/promotionRoute';
+import orderRoute from './route/orderRoute';
+import reviewRoute from './route/reviewRoute';
 import * as path from 'path';
 import serverConfig from './config/serverConfig';
 import { group } from 'node:console';
@@ -53,6 +56,9 @@ app.use(groupRoute);
 
 app.use(accountRoute);
 app.use(productRoute);
+app.use(promotionRoute);
+app.use(orderRoute);
+app.use(reviewRoute);
 
 /**
  * For testing

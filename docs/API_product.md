@@ -51,72 +51,27 @@ id: string
 id: string
 name: string
 price: string
+restaurant: restaurant
 description: string
 previewUri: string (link to image file)
 isActive: boolean
 {
     "error": 200,
-    "id": "PD-000001",
-    "name": "Bạc xỉu thêm đường",
-    "price": 15000,
-    "description": "Loại caffe ngon nhất thế giới song song",
-    "previewUri": "localhost:8080/public/default-product.jpg",
+    "id": "PD-000002",
+    "name": "Xôi",
+    "restaurant": {
+        "id": "RE-000001",
+        "name": "Hải sản Thái Bình",
+        "address": "Thái Bình",
+        "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+        "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\40f6a710-a46f-4287-afee-282d0d75bfd6-ảnh-hoàng-hôn-đẹp.jpg",
+        "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\7b2af30d-5dfd-48bd-b664-550b1f199501-hình-nền-4k-đẹp-scaled.jpg",
+        "isActive": true
+    },
+    "price": 20000,
+    "description": "Ngon nhất thế giới",
+    "previewUri": "https://mighty-plains-90447.herokuapp.com/public/default-product.jpg",
     "isActive": true,
-    "message": "OK"
-}
-```
-## Lấy tất cả product:
-```ruby
-/v1/product
-`get`
-```
-> Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-Không
-```
-
-> Response:<br>
-```ruby
-products: Array[
-  id: string
-  name: string
-  price: string
-  description: string
-  previewUri: string (link to image file)
-  isActive: boolean
-]
-{
-    "error": 200,
-    "products": [
-        {
-            "id": "PD-000001",
-            "name": "Bạc xỉu thêm đường",
-            "price": 15000,
-            "description": "Loại caffe ngon nhất thế giới song song",
-            "previewUri": "localhost:8080/public/default-product.jpg",
-            "isActive": true
-        },
-        {
-            "id": "PD-000002",
-            "name": "Bạc u thêm đường",
-            "price": 10000,
-            "description": "Loại caffe ngon nhất thếg",
-            "previewUri": "localhost:8080/public/default-product.jpg",
-            "isActive": true
-        },
-        {
-            "id": "PD-000003",
-            "name": "Bạc u thêm đường",
-            "price": 10000,
-            "description": "Loại caffe ngonấdsfgnc nhất thếg",
-            "previewUri": "localhost:8080/public/default-product.jpg",
-            "isActive": true
-        }
-    ],
     "message": "OK"
 }
 ```
@@ -131,15 +86,16 @@ Bearer token
 ```
 > Request:<br>
 ```ruby
+restaurantid: string
 name: string
-price: string
+price: number
 description: string
 isActive: boolean
 {
-	"name": "Bạc u thêm đường",
-	"price": "10000",
-	"description": "Loại caffe ngonấdsfgnc nhất thếg",
-	"isActive": 1
+	"restaurantid":"RE-000004",
+	"name": "Cháo",
+	"price": 20000,
+	"description": "Ngon nhất thế giới"
 }	
 ```
 Điều kiện hợp lệ:<br>
@@ -159,11 +115,20 @@ previewUri: string (link to image file)
 isActive: boolean
 {
     "error": 200,
-    "id": "PD-000003",
-    "name": "Bạc u thêm đường",
-    "price": 10000,
-    "description": "Loại caffe ngonấdsfgnc nhất thếg",
-    "previewUri": "localhost:8080/public/default-product.jpg",
+    "id": "PD-000007",
+    "name": "Cháo",
+    "restaurant": {
+        "id": "RE-000004",
+        "name": "Hải sản Quảng Ninh",
+        "address": "Hà Nội",
+        "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+        "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\2a532394-4854-40ee-8296-29b79a11ddaa-anhdep123.jpg",
+        "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\7ca19316-281c-4dce-9ad7-d272657c8c31-anh_20172968.jpg",
+        "isActive": true
+    },
+    "price": 20000,
+    "description": "Ngon nhất thế giới",
+    "previewUri": "https://mighty-plains-90447.herokuapp.com/public/default-product.jpg",
     "isActive": true,
     "message": "OK"
 }

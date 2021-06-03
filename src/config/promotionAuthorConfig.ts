@@ -1,17 +1,10 @@
 import authorConfig from "../_base/author/authorConfig";
 import AuthorGroupRole from "./authorGroupRoleConfig";
 
-const RESOURCE = "product";
+const RESOURCE = "promotion";
 
 const productAuthorConfig = {
   "create": [
-    AuthorGroupRole.ADMIN,
-    AuthorGroupRole.ROOT,
-    AuthorGroupRole.CUSTOMER,
-    AuthorGroupRole.GUEST,
-    AuthorGroupRole.RESTAURANT,
-  ],
-  "getAll": [
     AuthorGroupRole.ADMIN,
     AuthorGroupRole.ROOT,
     AuthorGroupRole.CUSTOMER,

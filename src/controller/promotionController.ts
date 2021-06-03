@@ -1,19 +1,19 @@
 import ERR_CODE from "../const/error";
 import STATUS_CODE from "../const/status";
-import ProductCreateDTO from "../dto/product/productCreateDTO";
-import ProductListFindDTO from "../dto/product/productListFindDTO";
-import productService from "../service/productService"
+import PromotionCreateDTO from "../dto/promotion/promotionCreateDTO";
+import PromotionListFindDTO from "../dto/promotion/promotionListFindDTO";
+import promotionService from "../service/promotionService"
 import sendResAppJson from "../dto/response/sendResAppJson";
-import ValidatorProduct from "../validator/validatorProduct";
+import ValidatorPromotion from "../validator/validatorPromotion";
 import CustomError from "../error/customError";
 import logger from "../_base/log/logger4js";
 import AbstractController from "./abstractController";
-import ProductDeleteDTO from "../dto/product/productDeleteDTO";
+import PromotionDeleteDTO from "../dto/promotion/promotionDeleteDTO";
 import AuthorGroupRole from "../config/authorGroupRoleConfig";
 
 
-class ProductController extends AbstractController {
-  private static _instance: ProductController
+class PromotionController extends AbstractController {
+  private static _instance: PromotionController
   private constructor() {
     super()
   }
@@ -24,10 +24,10 @@ class ProductController extends AbstractController {
   public async getById(req: any, res: any, next: any) {
     try {
       if (!req.body.id) {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_INVALID_ID);
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_INVALID_ID);
       }
-      const product = await productService.getById(req.body.id);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductCreateDTO(product));
+      const promotion = await promotionService.getById(req.body.id);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionCreateDTO(promotion));
     }
     catch(error) {
       next(error)
@@ -39,23 +39,14 @@ class ProductController extends AbstractController {
       if (!req.body.id) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_INVALID_ID);
       }
-      const products = await productService.getByRestaurantId(req.body.id);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductListFindDTO(products));
+      const promotions = await promotionService.getByRestaurantId(req.body.id);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionListFindDTO(promotions));
     }
     catch(error) {
       next(error)
     }
   }
 
-  public async getAll(req: any, res: any, next: any) {
-    try {
-      const products = await productService.getAll();
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductListFindDTO(products));
-    }
-    catch(error) {
-      next(error)
-    }
-  }
   public async delete(req: any, res: any, next: any) {
     try {
       logger.info('INPUT:'
@@ -63,8 +54,8 @@ class ProductController extends AbstractController {
       +'\nparams:'+JSON.stringify(req.params)
       +'\nquery:'+JSON.stringify(req.query));
       
-      const ids = await productService.delete(req.body.ids);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductDeleteDTO(ids));
+      const ids = await promotionService.delete(req.body.ids);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionDeleteDTO(ids));
     }
     catch(error) {
       next(error)
@@ -78,7 +69,7 @@ class ProductController extends AbstractController {
       +'\nquery:'+JSON.stringify(req.query));
 
       // Validate input
-      const errCode = ValidatorProduct.isProduct(req.body);
+      const errCode = ValidatorPromotion.isPromotion(req.body);
       if (errCode !== ERR_CODE.OK) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, errCode);
       }
@@ -89,8 +80,8 @@ class ProductController extends AbstractController {
         throw new CustomError(STATUS_CODE.FORBIDDEN, ERR_CODE.ACCOUNT_NO_PERMISSION);
       }
 
-      const product = await productService.updateInfo(req.body);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductCreateDTO(product));
+      const promotion = await promotionService.updateInfo(req.body);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionCreateDTO(promotion));
     }
     catch(error) {
       next(error)
@@ -104,7 +95,7 @@ class ProductController extends AbstractController {
       +'\nquery:'+JSON.stringify(req.query));
 
       // Validate input
-      const errCode = ValidatorProduct.isProduct(req.body);
+      const errCode = ValidatorPromotion.isPromotion(req.body);
       if (errCode !== ERR_CODE.OK) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, errCode);
       }
@@ -115,8 +106,8 @@ class ProductController extends AbstractController {
         throw new CustomError(STATUS_CODE.FORBIDDEN, ERR_CODE.ACCOUNT_NO_PERMISSION);
       }
 
-      const product = await productService.createOne(req.body);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductCreateDTO(product));
+      const promotion = await promotionService.createOne(req.body);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionCreateDTO(promotion));
     }
     catch(error) {
       next(error)
@@ -131,7 +122,7 @@ class ProductController extends AbstractController {
 
       // Validate input
       if (!req.body.id) {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_INVALID_ID);
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_INVALID_ID);
       }
 
       // Handle role --> Author service --> hard code
@@ -143,14 +134,14 @@ class ProductController extends AbstractController {
       // Handle file
       let path;
       if (!req.file || !req.file.path) {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_UPLOAD_PREVIEW_ERROR);
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPLOAD_PREVIEW_ERROR);
       }
       else {
         path = req.file.path;
       }
 
-      const product = await productService.updatePreview(req.body.id, path);
-      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new ProductCreateDTO(product));
+      const promotion = await promotionService.updatePreview(req.body.id, path);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new PromotionCreateDTO(promotion));
     }
     catch(error) {
       next(error)
@@ -159,4 +150,4 @@ class ProductController extends AbstractController {
 
 }
 
-export default ProductController.Instance
+export default PromotionController.Instance

@@ -1,24 +1,10 @@
 import authorConfig from "../_base/author/authorConfig";
 import AuthorGroupRole from "./authorGroupRoleConfig";
 
-const RESOURCE = "product";
+const RESOURCE = "order";
 
 const productAuthorConfig = {
   "create": [
-    AuthorGroupRole.ADMIN,
-    AuthorGroupRole.ROOT,
-    AuthorGroupRole.CUSTOMER,
-    AuthorGroupRole.GUEST,
-    AuthorGroupRole.RESTAURANT,
-  ],
-  "getAll": [
-    AuthorGroupRole.ADMIN,
-    AuthorGroupRole.ROOT,
-    AuthorGroupRole.CUSTOMER,
-    AuthorGroupRole.GUEST,
-    AuthorGroupRole.RESTAURANT,
-  ],
-  "delete": [
     AuthorGroupRole.ADMIN,
     AuthorGroupRole.ROOT,
     AuthorGroupRole.CUSTOMER,
@@ -45,7 +31,21 @@ const productAuthorConfig = {
     AuthorGroupRole.CUSTOMER,
     AuthorGroupRole.GUEST,
     AuthorGroupRole.RESTAURANT,
-  ]
+  ],
+  "Deny": [
+    AuthorGroupRole.ADMIN,
+    AuthorGroupRole.ROOT,
+    AuthorGroupRole.CUSTOMER,
+    AuthorGroupRole.GUEST,
+    AuthorGroupRole.RESTAURANT,
+  ],
+  "Agree": [
+    AuthorGroupRole.ADMIN,
+    AuthorGroupRole.ROOT,
+    AuthorGroupRole.CUSTOMER,
+    AuthorGroupRole.GUEST,
+    AuthorGroupRole.RESTAURANT,
+  ],
 }
 
 authorConfig.addConfig(productAuthorConfig, RESOURCE)

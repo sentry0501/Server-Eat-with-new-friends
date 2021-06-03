@@ -9,6 +9,9 @@ import { join } from "node:path";
 import { RestaurantEntity } from "./entity/restaurantEntity";
 import { GroupEntity } from "./entity/groupEntity";
 import { GroupCustomerEntity } from "./entity/groupCustomerEntity";
+import { PromotionEntity } from "./entity/promotionEntity";
+import { OrderEntity } from "./entity/orderEntity";
+import { ReviewEntity } from "./entity/reviewEntity";
 
 const ormInit = async () => {
   try {
@@ -25,6 +28,9 @@ const ormInit = async () => {
         GroupEntity,
         GroupCustomerEntity,
         ProductEntity,
+        PromotionEntity,
+        OrderEntity,
+        ReviewEntity,
       ],
       migrations: [
         "./migrations/*" 

@@ -4,29 +4,6 @@ import IGroupCustomer from '../model/IGroupCustomer';
 import logger from '../_base/log/logger4js';
 
 
-// async function deleteByIds(ids: Array<string>) {
-//   try {
-//     const repository = getRepository(EmployeeEntity);
-//     // const deletedEmployees = await repository
-//     // .createQueryBuilder()
-//     // .update<EmployeeEntity>(EmployeeEntity, { isActive: false})
-//     // .set({ isActive: false})
-//     // .where("id = :id", { id: In(ids) })
-//     // .returning(['id'])
-//     // .updateEntity(true)
-//     // .execute();
-//     // logger.debug(JSON.stringify(deletedEmployees));
-//     // return deletedEmployees.generatedMaps.map((id) => id.toString());
-//     const employees = await repository.find({where: {id: In(ids), isActive: true}});
-//     employees.map((e) => e.isActive = false);
-//     const deletedIds = await repository.save(employees);
-//     return deletedIds;
-//   }
-//   catch(e) {
-//     throw e;
-//   }
-// }
-
 async function getByCustomerId(id: string) {
   try {
     // await logger.debug("proIdDAO"+groupCustomers.product.id);

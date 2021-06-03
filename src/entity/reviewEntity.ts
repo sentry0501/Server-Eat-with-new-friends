@@ -3,29 +3,29 @@ import { CustomerEntity } from "./customerEntity";
 import { RestaurantEntity} from "./restaurantEntity";
 
 @Entity()
-export class GroupEntity {
+export class ReviewEntity {
   @PrimaryGeneratedColumn("uuid") 
   id: string
 
-  @Column({type: "nvarchar", default: "", nullable: false})
-  name: string
+  @Column({type: "text", default: "", nullable: false})
+  content: string
 
   @Column({type: "int", default: "0", nullable: false})
-  members: number
+  star: number
+
+  @Column({type: "date", nullable: false})
+  date: Date
   
   @ManyToOne(type => CustomerEntity, {
     cascade: true, onDelete: "RESTRICT", onUpdate: "CASCADE", eager: true, persistence: true, nullable: false
   })
-  @JoinColumn({ name: 'leaderId', referencedColumnName: 'id'})
-  leader: CustomerEntity
+  @JoinColumn({ name: 'customerId', referencedColumnName: 'id'})
+  customer: CustomerEntity
 
   @ManyToOne(type => RestaurantEntity, {
     cascade: true, onDelete: "CASCADE", onUpdate: "CASCADE", eager: true, persistence: true, nullable: false
   })
   @JoinColumn({ name: 'restaurantId', referencedColumnName: 'id'})
   restaurant: RestaurantEntity
-  
-  // @OneToMany(type => GroupCustomerEntity,groupCustomer => groupCustomer.group)
-  // groupCustomers: GroupCustomerEntity[]
 
 }

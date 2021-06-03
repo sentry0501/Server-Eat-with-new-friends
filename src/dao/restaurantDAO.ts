@@ -75,7 +75,7 @@ async function getByName(name: string) {
 async function getAll() {
   try {
     const repository = getRepository(RestaurantEntity);
-    return await repository.find({cache: true});
+    return await repository.find({where:{isActive: true},cache:true});
   }
   catch(e) {
     throw e;

@@ -2,7 +2,7 @@ import {Entity, Column, PrimaryColumn,ManyToOne,JoinColumn} from "typeorm"
 import { RestaurantEntity} from "./restaurantEntity";
 
 @Entity()
-export class ProductEntity {
+export class PromotionEntity {
   @PrimaryColumn({type: "varchar", length: 9, nullable: false})
   id: string
 
@@ -14,9 +14,6 @@ export class ProductEntity {
 
   @Column({type: "nvarchar", default: "", nullable: false})
   name: string
-
-  @Column({type: "int", default: 0, nullable: false})
-  price: number
 
   @Column({type: "text", nullable: false})
   description: string

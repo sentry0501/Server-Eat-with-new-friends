@@ -8,14 +8,20 @@ import uploadDisk from '../_base/file/uploadDisk';
 const router: Router = express.Router();
 
 router.post('/v1/product/getbyid',
-  accountController.authTokenAndPassRoleCodeToResLocals,
-  authProductMiddleware("getById"),
+  // accountController.authTokenAndPassRoleCodeToResLocals,
+  // authProductMiddleware("getById"),
   productController.getById
 )
 
+router.post('/v1/product/getbyrestaurantid',
+  // accountController.authTokenAndPassRoleCodeToResLocals,
+  // authProductMiddleware("getByRestaurantId"),
+  productController.getByRestaurantId
+)
+
 router.get('/v1/product',
-  accountController.authTokenAndPassRoleCodeToResLocals,
-  authProductMiddleware("getAll"),
+  // accountController.authTokenAndPassRoleCodeToResLocals,
+  // authProductMiddleware("getAll"),
   productController.getAll
 )
 

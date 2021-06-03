@@ -1,24 +1,23 @@
 import { QueryFailedError } from "typeorm/error/QueryFailedError";
 import ERR_CODE from "../const/error";
 import STATUS_CODE from '../const/status';
-import productDAO from '../dao/productDAO'
+import promotionDAO from '../dao/promotionDAO'
 import CustomError from '../error/customError';
 import logger from "../_base/log/logger4js";
-import dateUtil from "../util/dateUtil";
 import restaurantDAO from "../dao/restaurantDAO";
 
-class ProductService {
-  private static _instance: ProductService
+class PromotionService {
+  private static _instance: PromotionService
   private constructor() {
   }
   public static get Instance() {
       return this._instance || (this._instance = new this());
   }
 
-  private async generateProductId() {
-    let maxId = await productDAO.getMaxProductId();
+  private async generatePromotionId() {
+    let maxId = await promotionDAO.getMaxPromotionId();
     if (!maxId) {
-      maxId = "PD-000000";
+      maxId = "PM-000000";
     }
     const arr = maxId.split("-");
     let nextId = (parseInt(arr[1], 10) + 1).toString().padStart(6, "0");
@@ -27,11 +26,11 @@ class ProductService {
   
   public async getById(id: string) {
     try {
-      const product = await productDAO.getById(id);
-      if (!product) {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_GET_BY_ID_ERROR);
+      const promotion = await promotionDAO.getById(id);
+      if (!promotion) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_GET_BY_ID_ERROR);
       }
-      return product;
+      return promotion;
     }
     catch(e) {
       if (e instanceof QueryFailedError) {
@@ -42,7 +41,7 @@ class ProductService {
         logger.debug('CustomError');
         throw e;
       }
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_GET_BY_ID_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_GET_BY_ID_ERROR);
     }
   }
 
@@ -52,8 +51,8 @@ class ProductService {
       if (!restaurant) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_INVALID_ID);
       }
-      const products = await productDAO.getByRestaurantId(id);
-      return products;
+      const promotions = await promotionDAO.getByRestaurantId(id);
+      return promotions;
     }
     catch(e) {
       if (e instanceof QueryFailedError) {
@@ -64,38 +63,34 @@ class ProductService {
         logger.debug('CustomError');
         throw e;
       }
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_GET_BY_ID_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_GET_BY_ID_ERROR);
     }
   }
 
-  public async getAll() {
-    const products = await productDAO.getAll();
-    return products;
-  }
+
   public async createOne(e: any) {
     try {
       // Generate Next Id
-      const nextId = await this.generateProductId();
+      const nextId = await this.generatePromotionId();
       // logger.debug("GENERATE" + nextId);
       const restaurant = await restaurantDAO.getById(e.restaurantid);
 
       if(!restaurant){
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_INVALID_ID);
       }
-      // Create Product to save
-      let newProduct = productDAO.create({
+      // Create Promotion to save
+      let newPromotion = promotionDAO.create({
         id: nextId,
         name: e.name,
         restaurant: restaurant,
-        price: e.price,
         description: e.description,
-        previewUri: "public/default-product.jpg",
+        previewUri: "public/default-promotion.jpg",
         isActive: e.isActive === false ? false : true,
       });
 
-      // Save product in database
-      newProduct = await productDAO.save(newProduct);
-      return newProduct;
+      // Save promotion in database
+      newPromotion = await promotionDAO.save(newPromotion);
+      return newPromotion;
     }
     catch(e) {
       if (e instanceof QueryFailedError) {
@@ -106,28 +101,27 @@ class ProductService {
         logger.debug('CustomError');
         throw e;
       }
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_CREATE_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_CREATE_ERROR);
     }
   }
-  public async updateInfo(product: any) {
+  public async updateInfo(promotion: any) {
     try {
 
-      const e = await productDAO.getById(product.id);
+      const e = await promotionDAO.getById(promotion.id);
       if (e) {
-        let newProduct: any = {
+        let newPromotion: any = {
           id: e.id,
-          name: product.name,
+          name: promotion.name,
           restaurant: e.restaurant,
-          price: product.price,
-          description: product.description,
+          description: promotion.description,
           previewUri: e.previewUri,
-          isActive: product.isActive === false ? false : true, 
+          isActive: promotion.isActive === false ? false : true, 
         };
-        await productDAO.update(newProduct);
-        return newProduct;
+        await promotionDAO.update(newPromotion);
+        return newPromotion;
       }
       else {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_UPDATE_ERROR);
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPDATE_ERROR);
       }
     }
     catch(e) {
@@ -139,40 +133,39 @@ class ProductService {
         logger.debug('CustomError');
         throw e;
       }
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_UPDATE_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPDATE_ERROR);
     }
   }
   public async delete(ids: Array<string>) {
     try {
-      const productss = await productDAO.deleteByIds(ids);
-      const deletedIds = productss.map((e) => e.id);
-      // const deletedIds = productss;
+      const promotionss = await promotionDAO.deleteByIds(ids);
+      const deletedIds = promotionss.map((e) => e.id);
+      // const deletedIds = promotionss;
       // logger.debug("Delete" + deletedIds)
       return deletedIds;
     }
     catch {
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_DELETE_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_DELETE_ERROR);
     }
   }
   public async updatePreview(id: string, previewPath: string) {
     try {
 
-      const e = await productDAO.getById(id);
+      const e = await promotionDAO.getById(id);
       if (e) {
-        let newProduct: any = {
+        let newPromotion: any = {
           id: e.id,
           name: e.name,
           restaurant: e.restaurant,
-          price: e.price,
           description: e.description,
           previewUri: previewPath ? previewPath : e.previewUri,
           isActive: e.isActive, 
         };
-        await productDAO.update(newProduct);
-        return newProduct;
+        await promotionDAO.update(newPromotion);
+        return newPromotion;
       }
       else {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_UPLOAD_PREVIEW_ERROR);
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPLOAD_PREVIEW_ERROR);
       }
     }
     catch(e) {
@@ -184,10 +177,10 @@ class ProductService {
         logger.debug('CustomError');
         throw e;
       }
-      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PRODUCT_UPLOAD_PREVIEW_ERROR);
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPLOAD_PREVIEW_ERROR);
     }
   }
 
 }
 
-export default ProductService.Instance
+export default PromotionService.Instance

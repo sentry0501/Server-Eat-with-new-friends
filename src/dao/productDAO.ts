@@ -24,7 +24,7 @@ async function getMaxProductId() {
 async function getById(id: string) {
   try {
     const repository = getRepository(ProductEntity);
-    const products = await repository.find({id: id});
+    const products = await repository.find({where:{id: id,isActive:true}});
     if (products.length <= 0) {
       return null;
     }
@@ -36,10 +36,23 @@ async function getById(id: string) {
     throw e;
   }
 }
+
+async function getByRestaurantId(id: string) {
+  try {
+    const repository = getRepository(ProductEntity);
+    const products = await repository.find({where:{restaurant:{id:id},isActive:true}});
+    return products;
+  }
+  catch(e) {
+    throw e;
+  }
+}
+
+
 async function getAll() {
   try {
     const repository = getRepository(ProductEntity);
-    return await repository.find({cache: true});
+    return await repository.find({where:{isActive: true},cache:true});
   }
   catch(e) {
     throw e;
@@ -75,16 +88,6 @@ async function update(product: any) {
 async function deleteByIds(ids: Array<string>) {
   try {
     const repository = getRepository(ProductEntity);
-    // const deletedEmployees = await repository
-    // .createQueryBuilder()
-    // .update<EmployeeEntity>(EmployeeEntity, { isActive: false})
-    // .set({ isActive: false})
-    // .where("id = :id", { id: In(ids) })
-    // .returning(['id'])
-    // .updateEntity(true)
-    // .execute();
-    // logger.debug(JSON.stringify(deletedEmployees));
-    // return deletedEmployees.generatedMaps.map((id) => id.toString());
     const products = await repository.find({where: {id: In(ids), isActive: true}});
     products.map((e) => e.isActive = false);
     const deletedIds = await repository.save(products);
@@ -98,6 +101,7 @@ async function deleteByIds(ids: Array<string>) {
 
 const productDAO = {
   getMaxProductId,
+  getByRestaurantId,
   getById,
   getAll,
   create,
