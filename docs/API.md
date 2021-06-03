@@ -3,8 +3,8 @@ Mặc định:
 > Prefix Url:<br>
 ```ruby
 localhost:${.env.PORT}/
-ví dụ: localhost:8080/
-# Nếu có đường link ảnh (ví dụ: avatar) thì thêm tiền tố trên
+https://eat-with-friend.herokuapp.com/
+
 ```
 > Encytype:<br>
 ```ruby
@@ -34,7 +34,7 @@ Bearer token
 0: Khách (Chưa đăng nhập)
 1: Employee (Nhân viên)
 2: Admin (Quản lý)
-3: Root (Tài khoản gốc)
+3: Restaurant (nhà hàng)
 ```
 # Đăng nhập:
 ```ruby
@@ -49,26 +49,53 @@ multipart/form-data
 ```ruby
 account: string
 password: string
+
+"{
+    ""account"":""benbp05"",
+    ""password"":""000000""
+}"
 ```
 > Response:<br>
 ```ruby
-token: string
-id: string
-firstName: string
-lastName: string
-birthday: Date
-address: string
-position: string
-joinDate: Date
-expireDate: Date
-cccd: string
-avatarUri: string
-roleCode: number
+"{
+    ""error"": 200,
+    ""token"": ""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjI3MzI4OTcsImRhdGEiOnsicm9sZUNvZGUiOjEsImhhc2hQYXNzd29yZCI6IiQyYiQxMCR4VFBpbngxWG1ZUWUvUU5wOTNadG9PQTZPb0cyLnpjWEk3L29LNVE4SUk1TUhhSFJTUGN5eSIsImlkIjoiQ0YtMDAwMDAxIn0sImlhdCI6MTYyMjcyOTI5N30.V3XB3g3sTCwl2XLBltFFlNVESr07WyFZgQGs4xkBI4I"",
+    ""id"": ""CF-000001"",
+    ""name"": ""Bùi Phó Bền"",
+    ""birthday"": ""1999-01-05"",
+    ""address"": ""Hà Nội"",
+    ""avatarUri"": ""https://mighty-plains-90447.herokuapp.com/static/ef184cd0-491c-4792-b079-fb490d737916-anhdep123.jpg"",
+    ""roleCode"": 1,
+    ""message"": ""OK""
+}"
 ```
-# Employee
-## Lấy thông tin một nhân viên:
+# Đăng nhập nhà hàng:
 ```ruby
-/v1/employee/getbyid
+/v1/accountRestaurant/signin
+`post`
+```
+> Encytpe:
+```ruby
+multipart/form-data
+```
+> Request:<br>
+```ruby
+account: string
+password: string
+
+"{
+    ""account"":""nhahang04"",
+    ""password"":""000000""
+}"
+```
+> Response:<br>
+```ruby
+```
+
+# Customer
+## Lấy thông tin một người dùng:
+```ruby
+/v1/customer/getbyid
 `get`
 ```
 > Gắn Header:<br>
@@ -78,166 +105,141 @@ Bearer token
 > Request:<br>
 ```ruby
 id: string
+{
+	"id": "CF-000001"
+}	
 ```
 
 > Response:<br>
 ```ruby
-id: string
-firstName: string
-lastName: string
-birthday: Date
-address: string
-position: string
-joinDate: Date
-expireDate: Date
-roleCode: number
-cccd: string
-avatarUri: string
-isActive: boolean
-account: string
-salary: number
+{
+    "error": 200,
+    "id": "CF-000001",
+    "name": "Bùi Phó Bền",
+    "birthday": "1999-01-06",
+    "address": "Thái Bình",
+    "roleCode": 1,
+    "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\56b235b0-6075-4885-98db-f5c015c523c3-hình-ảnh-biển-đẹp.jpg",
+    "isActive": true,
+    "account": "benbp01",
+    "message": "OK"
+}
 ```
-## Cập nhật thông tin một nhân viên:
+## Cập nhật thông tin một người dùng:
 ```ruby
-/v1/employee/update
+/v1/customer/update
 `put`
 ```
 > Encytpe:
 ```ruby
 multipart/form-data
 ```
-> Chỉ admin có quyền nên phải gắn Header:<br>
+> Chỉ người dùng có quyền<br>
 ```ruby
 Bearer token
 ```
 > Request:<br>
 ```ruby
 id: string
-firstName: string
-lastName: string
+name: string
 birthday: Date
 address: string
-position: string
-joinDate: Date
-expireDate: Date
-roleCode: number
-cccd: string
+roleCode: 1 (mặc định là customer)
 avatar: string (not require)
-isActive: boolean (not require)
-account: string
-salary: number
-```
-> Response:<br>
-```ruby
-id: string
-firstName: string
-lastName: string
-birthday: Date
-address: string
-position: string
-joinDate: Date
-expireDate: Date
-roleCode: number
-cccd: string
-avatarUri: string
-isActive: boolean
-account: string
-salary: number
-```
-## Xóa một danh sách nhân viên:
-```ruby
-/v1/employee/delete
-`delete`
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-ids: Array<id: int> - Danh sách những id nhân viên cần xóa
-```
-> Response:<br>
-```ruby
-ids: Array<id: int> - Danh sách những id đã bị xóa
-```
-## Thêm một nhân viên mới:
-```ruby
-/v1/employee/createone
-`put`
-```
-> Encytpe:
-```ruby
-multipart/form-data
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Cheat thêm một nhân viên mới (không cần authentication, authorization):<br>
-```ruby
-/v1/cheat/employee/createone
-`all`
-```
-> Request:<br>
-```ruby
-firstName: string
-lastName: string
-birthday: Date
-address: string
-position: string
-joinDate: Date
-expireDate: Date
-roleCode: number
-cccd: string
-avatar: string
-isActive: boolean
+isActive: 1 (mặc định)
 account: string
 password: string
-salary: number
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "id": "CF-000003",
+    "name": "Bùi Phó Khoa",
+    "birthday": "1999-01-06",
+    "address": "Thái Bình",
+    "roleCode": 1,
+    "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\a6ac4e39-1700-4cdb-ab56-3976057f813d-hình-ảnh-biển-đẹp.jpg",
+    "isActive": true,
+    "account": "benbp00",
+    "message": "OK"
+}
+```
+## Xóa một người dùng:
+```ruby
+/v1/customer/delete
+`delete`
+```
+> Chỉ admin có quyền<br>
+```ruby
+Bearer token
+```
+> Request:<br>
+```ruby
+id: id người cần xóa
+{
+	"ids":"CF-000002"
+}
+```
+> Response:<br>
+```ruby
+ids: id đã bị xóa
+{
+    "error": 200,
+    "ids": "CF-000002",
+    "message": "OK"
+}
+```
+## Thêm một người dùng mới:
+```ruby
+/v1/customer/createone
+`put`
+```
+> Encytpe:
+```ruby
+multipart/form-data
+```
+> Request:<br>
+```ruby
+name: string
+birthday: dd-mm-yyyy
+address: string
+roleCode: 1
+avatar: string
+isActive: 1
+account: string
+password: string
 ```
 Điều kiện hợp lệ:<br>
 ```ruby
-firstName: Độ dài >= 0
-lastName: Độ dài > 0
+name: Độ dài >= 0
 birthday: < Ngày hiện tại
 address: Độ dài > 0
-position: Độ dài > 0
-joinDate: Ngày gia nhập, định dạng `dd-mm-yyyy`
-expireDate: Ngày hết hạn hợp đồng, định dạng `dd-mm-yyyy`
-roleCode: Là 1 trong 2 giá trị
-  1: Nhân viên
-  2: Admin
-cccd: Unique (12 chữ số)
 avatar: .jpg, .jpeg, .png
-isActive: bool - Nhân viên còn làm việc hay không
 account: Độ dài >= 6 <= 20
 password: Đồ dài >= 6 <= 20
-salary: Mặc định = -1
 ```
 > Response:<br>
 ```ruby
-id: string
-firstName: string
-lastName: string
-birthday: Date
-address: string
-position: string
-joinDate: Date
-expireDate: Date
-roleCode: number
-cccd: string
-avatarUri: string
-isActive: boolean
-account: string
-salary: number
+{
+    "error": 200,
+    "id": "CF-000001",
+    "name": "Bùi Phó Bền",
+    "birthday": "1999-01-05T00:00:00.000Z",
+    "address": "Hà Nội",
+    "roleCode": 1,
+    "avatarUri": "https://eat-with-friend.herokuapp.com/static/2274f5e0-c871-4495-b47d-55e6ff92c27d-anhdep123.jpg",
+    "isActive": true,
+    "account": "benbp05",
+    "message": "OK"
+}
 ```
-## Lấy tất cả nhân viên:
+## Lấy tất cả người dùng:
 ```ruby
-/v1/employee
+/v1/customer
 `get`
 ```
-> Chỉ admin có quyền nên phải gắn Header:<br>
+>khách ko có quyền nên phải gắn Header:<br>
 ```ruby
 Bearer token
 ```
@@ -248,63 +250,160 @@ Không
 
 > Response:<br>
 ```ruby
-employees: Array[{
-  id: string
-  firstName: string
-  lastName: string
-  address: string
-  position: string
-  avatarUri: string
-  isActive: boolean
-  cccd: string
-}]
+{
+    "error": 200,
+    "customers": [
+        {
+            "id": "CF-000001",
+            "name": "Bùi Phó Bền",
+            "address": "Hà Nội",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/ef184cd0-491c-4792-b079-fb490d737916-anhdep123.jpg",
+            "isActive": true
+        }
+    ],
+    "message": "OK"
+}
 ```
-# Transaction
-## Tạo một giao dịch:
+## Tìm người dùng theo tên:
 ```ruby
-/v1/transaction/createone
-`put`
+/v1/customer/getbyname
+`post`
 ```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
+>khách ko có quyền nên phải gắn Header:<br>
 ```ruby
 Bearer token
 ```
 > Request:<br>
 ```ruby
-materialName: string
+name: string
+{
+	"name": "pho"
+}	
+```
+
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "customers": [
+        {
+            "id": "CF-000001",
+            "name": "Bùi Phó Bền",
+            "address": "Thái Bình",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\56b235b0-6075-4885-98db-f5c015c523c3-hình-ảnh-biển-đẹp.jpg",
+            "isActive": true
+        },
+        {
+            "id": "CF-000002",
+            "name": "Bùi Phó Bền",
+            "address": "Hà Nội",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\2ad99561-6b91-427f-9d0c-4f983d56afc1-default-product.jpg",
+            "isActive": true
+        },
+        {
+            "id": "CF-000003",
+            "name": "Bùi Phó Bền",
+            "address": "Hà Nội",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\8e73e264-9091-433d-80b1-800509dcaebe-default-product.jpg",
+            "isActive": true
+        }
+    ],
+    "message": "OK"
+}
+```
+# Nhà  hàng
+## Tạo một nhà hàng:
+```ruby
+/v1/restaurant/createone
+`put`
+```
+> Encytpe:
+```ruby
+multipart/form data
+```
+>Header:<br>
+```ruby
+không
+```
+> Request:<br>
+```ruby
+name: string
+address: string
 description: string
-count: number
-price: number
-supplierName: string
-time: `dd-mm-yyyy`
+roleCode: 3 (mặc định)
+avatar: .png .jpg .jpeg
+isActive: 1
+account: string
+password: string
+coverL .png .jpg .jpeg
 ```
 > Response:<br>
 ```ruby
-id: string
-materialName: string
-description: string
-count: number
-price: number
-supplierName: string
-time: Date
-employee: {
-  id: string,
-  firstName: string,
-  lastName: string,
-  address: string,
-  position: string,
-  avatarUri: string,
-  isActive: string,
-  cccd: string
+{
+    "error": 200,
+    "id": "RE-000001",
+    "name": "Hải sản Quảng Ninh",
+    "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+    "address": "Hà Nội",
+    "roleCode": 3,
+    "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+    "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+    "isActive": true,
+    "account": "nhahang04",
+    "message": "OK"
+}
 }
 ```
-## Lấy thông tin một giao dịch:
+## Tìm nhà hàng theo tên:
 ```ruby
-/v1/transaction/getbyid
+/v1/restaurant/getbyname
+`post`
+```
+> Encytpe:
+```ruby
+application/json
+```
+> Header<br>
+```ruby
+không
+```
+> Request:<br>
+```ruby
+name: string
+{
+	"name": "pho"
+}	
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "restaurants": [
+        {
+            "id": "RE-000001",
+            "name": "Hải sản Quảng Ninh",
+            "address": "Hà Nội",
+            "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+            "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+            "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+            "isActive": true
+        },
+        {
+            "id": "RE-000002",
+            "name": "Hải sản Quảng Ninh",
+            "address": "Hà Nội",
+            "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+            "avatarUri": "https://eat-with-friend.herokuapp.com/static/7b390573-da6c-4900-9fd0-fe2ed2328dda-anhdep123.jpg",
+            "coverUri": "https://eat-with-friend.herokuapp.com/static/109a4786-20f8-4e5c-9f9e-34867665521d-anh_20172968.jpg",
+            "isActive": true
+        }
+    ],
+    "message": "OK"
+}
+```
+## Lấy nhà hàng theo id:
+```ruby
+/v1/restaurant/getbyid
 `post`
 ```
 > Encytpe:
@@ -313,78 +412,69 @@ application/json
 ```
 > Chỉ admin có quyền nên phải gắn Header:<br>
 ```ruby
-Bearer token
+Không
 ```
 > Request:<br>
 ```ruby
-id: string
-```
-> Response:<br>
-```ruby
-id: string
-materialName: string
-description: string
-count: number
-price: number
-supplierName: string
-time: Date
-employee: {
-  id: string,
-  firstName: string,
-  lastName: string,
-  address: string,
-  position: string,
-  avatarUri: string,
-  isActive: string,
-  cccd: string
+{
+	"id":"RE-000001"
 }
 ```
-## Cập nhật thông tin một giao dịch:
-```ruby
-/v1/transaction/update
-`put`
+> Response:<br>
+```ruby   
+{
+    "error": 200,
+    "id": "RE-000001",
+    "name": "Hải sản Quảng Ninh",
+    "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+    "address": "Hà Nội",
+    "roleCode": 3,
+    "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+    "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+    "isActive": true,
+    "account": "nhahang04",
+    "message": "OK"
+}
 ```
-> Encytpe:
+## Lấy danh sách nhà hàng:
 ```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
+/v1/restaurant
+`get`
 ```
 > Request:<br>
 ```ruby
-id: string
-materialName: string
-description: string
-count: number
-price: number
-supplierName: string
-time: `dd-mm-yyyy`
+không
 ```
 > Response:<br>
 ```ruby
-id: string
-materialName: string
-description: string
-count: number
-price: number
-supplierName: string
-time: Date
-employee: {
-  id: string,
-  firstName: string,
-  lastName: string,
-  address: string,
-  position: string,
-  avatarUri: string,
-  isActive: string,
-  cccd: string
+{
+    "error": 200,
+    "restaurants": [
+        {
+            "id": "RE-000001",
+            "name": "Hải sản Thái Bình",
+            "address": "Thái Bình",
+            "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\40f6a710-a46f-4287-afee-282d0d75bfd6-ảnh-hoàng-hôn-đẹp.jpg",
+            "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\7b2af30d-5dfd-48bd-b664-550b1f199501-hình-nền-4k-đẹp-scaled.jpg",
+            "isActive": true
+        },
+        {
+            "id": "RE-000003",
+            "name": "Bùi Phó Bền",
+            "address": "Hà Nội",
+            "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\161cb894-2b51-46b2-9b47-c45ae08cfb74-anhdep123.jpg",
+            "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\b0f2dddf-e107-4d8a-b4ca-e49d5b6beeca-anh_20172968.jpg",
+            "isActive": true
+        }
+    ],
+    "message": "OK"
 }
 ```
-## Xóa một giao dịch:
+## Xóa nhà hàng:
 ```ruby
-/v1/transaction/delete
+/v1/restaurant/delete
 `delete`
 ```
 > Encytpe:
@@ -397,616 +487,261 @@ Bearer token
 ```
 > Request:<br>
 ```ruby
-ids: Array<string>
-```
-> Response:<br>
-```ruby
-ids: Array<string>
-```
-## Lấy tất cả các giao dịch:
-```ruby
-/v1/transaction
-`get`
-```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-Không
-```
-> Response:<br>
-```ruby
-transactions: Array[{
-  id: string
-  materialName: string
-  description: string
-  count: number
-  price: number
-  supplierName: string
-  time: Date
-  employee: {
-    id: string,
-    firstName: string,
-    lastName: string,
-    address: string,
-    position: string,
-    avatarUri: string,
-    isActive: string,
-    cccd: string
-  }
-}]
-```
-# Thống kê
-## Doanh thu theo thời gian (tính dựa theo trường money của đơn hàng):
-```ruby
-/v1/stat/revenue
-`post`
-```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-start: `dd-mm-yyyy`
-end: `dd-mm-yyyy`
-```
-```ruby
-Example:
 {
-    "start":"29-04-2021",
-    "end":"03-05-2021"
+	"ids":["RE-000002"]
 }
-Khoảng thời gian giữa start và end tối đa là 2 năm (tránh bị quá bộ nhớ)
 ```
 > Response:<br>
 ```ruby
-type: string,
-revenue: Array<number>: Doanh thu theo ngày, index 0 đại diện cho ngày bắt đầu (start)
-```
-```ruby
-Example:
 {
     "error": 200,
-    "type": "day",
-    "revenue": [
-        0,
-        0,
-        0,
-        0,
-        0
+    "ids": [
+        "RE-000002"
     ],
     "message": "OK"
 }
 ```
-## Số lượng sản phẩm bán được theo thời gian:
+## Cập nhật một nhà hàng:
 ```ruby
-/v1/stat/revenue/product
-`post`
+/v1/restaurant/update
+`put`
+```
+> Encytpe:
+```ruby
+multipart/form data
+```
+>Header:<br>
+```ruby
+không
+```
+> Request:<br>
+```ruby
+id: string
+name: string
+address: string
+description: string
+roleCode: 3 (mặc định)
+avatar: .png .jpg .jpeg
+isActive: 1
+account: string
+password: string
+coverL .png .jpg .jpeg
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "id": "RE-000001",
+    "name": "Hải sản Quảng Ninh",
+    "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+    "address": "Hà Nội",
+    "roleCode": 3,
+    "avatarUri": "https://eat-with-friend.herokuapp.com/static/b5d46d24-78ac-4377-84b3-e47afecfc5c0-anhdep123.jpg",
+    "coverUri": "https://eat-with-friend.herokuapp.com/static/f88beae6-c6c3-47a6-84cc-ba1502a04998-anh_20172968.jpg",
+    "isActive": true,
+    "account": "nhahang04",
+    "message": "OK"
+}
+}
+```
+# Nhóm
+## Tham gia nhóm
+```ruby
+/v1/group/join
+`put`
 ```
 > Encytpe:
 ```ruby
 application/json
 ```
-> Chỉ admin có quyền nên phải gắn Header:<br>
+> Chỉ người dùng có quyền nên phải gắn Header:<br>
 ```ruby
 Bearer token
 ```
 > Request:<br>
 ```ruby
-start: `dd-mm-yyyy`
-end: `dd-mm-yyyy`
-```
-```ruby
-Example:
 {
-    "start":"29-04-2021",
-    "end":"03-05-2021"
-}
-Khoảng thời gian giữa start và end tối đa là 2 năm (tránh bị quá bộ nhớ)
-```
-> Response:<br>
-```ruby
-type: string,
-revenue: {
-  [productId: string]: {
-    counts: [
-      number
-    ],
-    metadata: {
-      id: string
-      name: string
-      price: string
-      description: string
-      previewUri: string (link to image file)
-      isActive: boolean
-    }
-  }
-}: Thông tin của sản phẩm `productId`: số lượng bán được theo ngày (index 0 đại diện cho ngày bắt đầu), thông tin thêm về sản phẩm
-```
-```ruby
-Example:
-{
-    "error": 200,
-    "type": "day",
-    "revenue": {
-        "PD-000001": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000001",
-                "name": "abcdef",
-                "price": 80000,
-                "description": "123456kmnop",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        },
-        "PD-000002": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000002",
-                "name": "abcdef",
-                "price": 80000,
-                "description": "123456kmnop",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        },
-        "PD-000003": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000003",
-                "name": "abcdef",
-                "price": 80001,
-                "description": "123456kmnop",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        },
-        "PD-000004": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000004",
-                "name": "ca phe 16",
-                "price": 30000,
-                "description": "ca phe ngon nhat the gioi ",
-                "previewUri": "static/4c30fbdf-d66d-4502-9ba7-65a55a06786b-anh-dep-ben-ly-cafe-den_110730392.jpg",
-                "isActive": true
-            }
-        },
-        "PD-000005": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000005",
-                "name": "ca phe 11",
-                "price": 50000,
-                "description": "ok",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        },
-        "PD-000006": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000006",
-                "name": "ca phe 12",
-                "price": 50000,
-                "description": "ok ok ok",
-                "previewUri": "static/f9bd0622-1240-492e-a8f9-fbc57050cad6-default-product.jpg",
-                "isActive": true
-            }
-        },
-        "PD-000007": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000007",
-                "name": "nước chanh leo",
-                "price": 50000,
-                "description": "đc làm từ chanh leo",
-                "previewUri": "static/0025dd9d-9a27-409f-8dc5-2af8f58817fb-default-product.jpg",
-                "isActive": true
-            }
-        },
-        "PD-000008": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000008",
-                "name": "Trà",
-                "price": 50000,
-                "description": "Mới",
-                "previewUri": "public/default-product.jpg",
-                "isActive": true
-            }
-        },
-        "PD-000009": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000009",
-                "name": "ca phe 1",
-                "price": 2000000,
-                "description": "ca phe lam tu ca phe",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        },
-        "PD-000010": {
-            "counts": [
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "PD-000010",
-                "name": "ca phe 2",
-                "price": 300000,
-                "description": "ca phe lam tu ca phe",
-                "previewUri": "public/default-product.jpg",
-                "isActive": false
-            }
-        }
-    },
-    "message": "OK"
-}
-```
-## Số lượng đơn hàng mà nhân viên nhập theo thời gian:
-```ruby
-/v1/stat/employee/order
-`post`
-```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-start: `dd-mm-yyyy`
-end: `dd-mm-yyyy`
-```
-```ruby
-Example:
-{
-    "start":"30-04-2021",
-    "end":"01-05-2021"
-}
-Khoảng thời gian giữa start và end tối đa là 2 năm (tránh bị quá bộ nhớ)
-```
-> Response:<br>
-```ruby
-type: string,
-revenue: {
-  [employeeId: string]: {
-    counts: [
-      number
-    ],
-    money: [
-      number
-    ],
-    metadata: {
-      id: string
-      firstName: string
-      lastName: string
-      address: string
-      position: string
-      avatarUri: string
-      isActive: boolean
-      cccd: string
-    }
-  }
-}: Thông tin của nhân viên `employeeId`: số lượng order được theo ngày (index 0 đại diện cho ngày bắt đầu), số tiền tổng cộng của các đơn hàng theo ngày, thông tin thêm về nhân viên
-```
-```ruby
-Example:
-{
-    "error": 200,
-    "type": "day",
-    "revenue": {
-        "CF-000001": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000001",
-                "firstName": "VBN",
-                "lastName": "Long",
-                "address": "ADAIwjqpe",
-                "position": "Quản lý",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/294daead-e423-405a-9c8a-4b150ef5b859-poster.jpg",
-                "isActive": false,
-                "cccd": "333010112821"
-            }
-        },
-        "CF-000002": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000002",
-                "firstName": "VBN",
-                "lastName": "Long",
-                "address": "ADAIwjqpe",
-                "position": "Lễ Tân",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/27807b35-253b-40a4-8b06-bfb909023a08-king.jpg",
-                "isActive": false,
-                "cccd": "933010112821"
-            }
-        },
-        "CF-000003": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000003",
-                "firstName": "Viet",
-                "lastName": "Long",
-                "address": "Bac Ninh",
-                "position": "Dau bep",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/ec365ebe-0274-4184-8fa5-45844bb6ce2a-poster2.jpg",
-                "isActive": false,
-                "cccd": "125671234599"
-            }
-        },
-        "CF-000004": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000004",
-                "firstName": "huy",
-                "lastName": "vu",
-                "address": "BK haf nooij",
-                "position": "admin",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/fec58134-4a6f-4984-8314-265b0071c912-tkb.PNG",
-                "isActive": false,
-                "cccd": "123456789123"
-            }
-        },
-        "CF-000005": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000005",
-                "firstName": "1231235",
-                "lastName": "12312312",
-                "address": "Lang Son",
-                "position": "nhan vien",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/45a9da24-5119-4378-aff6-0d3a3fb04248-server_information.jpg",
-                "isActive": false,
-                "cccd": "123456789012"
-            }
-        },
-        "CF-000006": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000006",
-                "firstName": "hung",
-                "lastName": "ma",
-                "address": "Lang Son",
-                "position": "nhan vien",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/8a223379-e066-4726-90f2-de284a9e5493-7bf49cc8e519bcea2fdd87b00df971aa.jpg",
-                "isActive": false,
-                "cccd": "341234235673"
-            }
-        },
-        "CF-000007": {
-            "counts": [
-                0,
-                0
-            ],
-            "money": [
-                0,
-                0
-            ],
-            "metadata": {
-                "id": "CF-000007",
-                "firstName": "tung dz",
-                "lastName": "ma",
-                "address": "Lang Son",
-                "position": "Nhan vien cot can",
-                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static/6aae43e1-8daa-4a76-8c05-4736734106aa-Screenshot from 2021-03-28 16-58-51.png",
-                "isActive": false,
-                "cccd": "082343996345"
-            }
-        }
-    },
-    "message": "OK"
-}
-```
-## Doanh thu và chi phí đã bỏ ra trong tháng hiện tại
-```ruby
-/v1/stat/revenue/cost
-`get`
-```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-Không
-```
-> Response:<br>
-```ruby
-revenue: number
-cost: number
-```
-```ruby
-Example:
-{
-    "error": 200,
-    "revenue": "4900000",
-    "cost": "100",
-    "message": "OK"
-}
-```
-## Doanh thu trong 24h qua (tính tổng 3h 1 lần)
-```ruby
-/v1/stat/revenue/24h
-`get`
-```
-> Encytpe:
-```ruby
-application/json
-```
-> Chỉ admin có quyền nên phải gắn Header:<br>
-```ruby
-Bearer token
-```
-> Request:<br>
-```ruby
-Không
-```
-> Response:<br>
-```ruby
-revenue: Array<hour,money>
-type: hour
-```
-```ruby
-Example:
-{
-    "error": 200,
-    "type": "hour",
-    "revenue": [
-        [
-            1,
-            80000
-        ],
-        [
-            4,
-            130000
-        ],
-        [
-            7,
-            335000
-        ],
-        [
-            10,
-            490000
-        ],
-        [
-            13,
-            800000
-        ],
-        [
-            16,
-            985500
-        ],
-        [
-            19,
-            1090000
-        ],
-        [
-            22,
-            1108000
-        ]
-    ],
-    "message": "OK"
+	"customer":"CF-000003",
+	"restaurant": "RE-000003"
 }
 
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "id": "10206179-05f0-4752-8b9b-a09c5a315fa4",
+    "name": "Nhóm nhà hàng Bùi Phó Bền",
+    "restaurant": {
+        "id": "RE-000003",
+        "name": "Bùi Phó Bền",
+        "address": "Hà Nội",
+        "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+        "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\161cb894-2b51-46b2-9b47-c45ae08cfb74-anhdep123.jpg",
+        "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\b0f2dddf-e107-4d8a-b4ca-e49d5b6beeca-anh_20172968.jpg",
+        "isActive": true
+    },
+    "members": 1,
+    "leader": {
+        "id": "CF-000003",
+        "name": "Bùi Phó Khoa",
+        "address": "Thái Bình",
+        "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\a6ac4e39-1700-4cdb-ab56-3976057f813d-hình-ảnh-biển-đẹp.jpg",
+        "isActive": true
+    },
+    "message": "OK"
+}
+```
+## Rời nhóm
+```ruby
+/v1/group/leave
+`put`
+```
+> Encytpe:
+```ruby
+application/json
+```
+> Chỉ người dùng có quyền nên phải gắn Header:<br>
+```ruby
+Bearer token
+```
+> Request:<br>
+```ruby
+{
+	"customer":"CF-000003",
+	"group": "9bf48b22-95b1-4707-ba90-a6b79ea856d9"
+}
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "message": "OK"
+}
+```
+## Lấy các thành viên nhóm:
+```ruby
+/v1/group/get members
+`post`
+```
+> Encytpe:
+```ruby
+application/json
+```
+> Chỉ người dùng có quyền nên phải gắn Header:<br>
+```ruby
+Bearer token
+```
+> Request:<br>
+```ruby
+id: id nhóm
+```
+```ruby
+Example:
+{
+	"id": "72294e9e-a82c-47b2-a168-d2e1b2282f9c"
+}	
+Khoảng thời gian giữa start và end tối đa là 2 năm (tránh bị quá bộ nhớ)
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "customers": [
+        {
+            "id": "CF-000001",
+            "name": "Bùi Phó Bền",
+            "address": "Thái Bình",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\56b235b0-6075-4885-98db-f5c015c523c3-hình-ảnh-biển-đẹp.jpg",
+            "isActive": true
+        },
+        {
+            "id": "CF-000002",
+            "name": "Bùi Phó Bền",
+            "address": "Hà Nội",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\2ad99561-6b91-427f-9d0c-4f983d56afc1-default-product.jpg",
+            "isActive": true
+        },
+        {
+            "id": "CF-000003",
+            "name": "Bùi Phó Khoa",
+            "address": "Thái Bình",
+            "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\a6ac4e39-1700-4cdb-ab56-3976057f813d-hình-ảnh-biển-đẹp.jpg",
+            "isActive": true
+        }
+    ],
+    "message": "OK"
+}
+```
+## Lấy các nhóm một của người dùng
+```ruby
+/v1/group/getbycustomerid
+`post`
+```
+> Encytpe:
+```ruby
+application/json
+```
+> Chỉ người dùng có quyền nên phải gắn Header:<br>
+```ruby
+Bearer token
+```
+> Request:<br>
+```ruby
+{
+	"id": "CF-000003"
+}	
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "groups": [
+        {
+            "error": 200,
+            "id": "10206179-05f0-4752-8b9b-a09c5a315fa4",
+            "name": "Nhóm nhà hàng Bùi Phó Bền",
+            "restaurant": {
+                "id": "RE-000003",
+                "name": "Bùi Phó Bền",
+                "address": "Hà Nội",
+                "description": "Nhà hàng có rất nhiều món ăn hải sản nổi tiếng",
+                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\161cb894-2b51-46b2-9b47-c45ae08cfb74-anhdep123.jpg",
+                "coverUri": "https://mighty-plains-90447.herokuapp.com/static\\b0f2dddf-e107-4d8a-b4ca-e49d5b6beeca-anh_20172968.jpg",
+                "isActive": true
+            },
+            "members": 1,
+            "leader": {
+                "id": "CF-000003",
+                "name": "Bùi Phó Khoa",
+                "address": "Thái Bình",
+                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\a6ac4e39-1700-4cdb-ab56-3976057f813d-hình-ảnh-biển-đẹp.jpg",
+                "isActive": true
+            }
+        },
+        {
+            "error": 200,
+            "id": "72294e9e-a82c-47b2-a168-d2e1b2282f9c",
+            "name": "Nhóm nhà hàng Bùi Phó Bền",
+            "restaurant": {
+                "id": "RE-000001",
+                "name": "Bùi Phó Bền",
+                "address": "Hà Nội",
+                "description": "",
+                "avatarUri": "https://mighty-plains-90447.herokuapp.com/",
+                "coverUri": "https://mighty-plains-90447.herokuapp.com/",
+                "isActive": true
+            },
+            "members": 3,
+            "leader": {
+                "id": "CF-000003",
+                "name": "Bùi Phó Khoa",
+                "address": "Thái Bình",
+                "avatarUri": "https://mighty-plains-90447.herokuapp.com/static\\a6ac4e39-1700-4cdb-ab56-3976057f813d-hình-ảnh-biển-đẹp.jpg",
+                "isActive": true
+            }
+        }
+    ],
+    "message": "OK"
+}
 ```
