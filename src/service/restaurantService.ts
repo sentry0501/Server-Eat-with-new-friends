@@ -49,9 +49,9 @@ class RestaurantService {
   public async getByName(name: string) {
     try {
       const restaurants = await restaurantDAO.getByName(name);
-      if (!restaurants) {
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_GET_BY_NAME_ERROR);
-      }
+      // if (!restaurants) {
+      //   throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_GET_BY_NAME_ERROR);
+      // }
       return restaurants;
     }
     catch(e) {

@@ -59,12 +59,12 @@ async function getByName(name: string) {
                                       .where("restaurant.name like :name", { name:`%${name}%` })
                                       .getMany();
     // logger.debug("name "+ JSON.stringify(restaurants))
-    if (restaurants.length <= 0) {
-      return null;
-    }
-    else {
-      return restaurants;
-    }
+    // if (restaurants.length <= 0) {
+    //   return null;
+    // }
+    // else {
+    return restaurants;
+    // }
   }
   catch(e) {
     throw e;
