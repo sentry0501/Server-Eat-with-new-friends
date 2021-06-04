@@ -19,6 +19,7 @@ import orderRoute from './route/orderRoute';
 import reviewRoute from './route/reviewRoute';
 import * as path from 'path';
 import serverConfig from './config/serverConfig';
+import messageRoute from './route/messageRoute';
 import { group } from 'node:console';
 
 const app: Express = express();
@@ -59,6 +60,7 @@ app.use(productRoute);
 app.use(promotionRoute);
 app.use(orderRoute);
 app.use(reviewRoute);
+app.use(messageRoute);
 
 /**
  * For testing

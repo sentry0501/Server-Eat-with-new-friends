@@ -12,6 +12,7 @@ import { GroupCustomerEntity } from "./entity/groupCustomerEntity";
 import { PromotionEntity } from "./entity/promotionEntity";
 import { OrderEntity } from "./entity/orderEntity";
 import { ReviewEntity } from "./entity/reviewEntity";
+import { MessageEntity } from "./entity/messageEntity";
 
 const ormInit = async () => {
   try {
@@ -31,6 +32,7 @@ const ormInit = async () => {
         PromotionEntity,
         OrderEntity,
         ReviewEntity,
+        MessageEntity,
       ],
       migrations: [
         "./migrations/*" 
