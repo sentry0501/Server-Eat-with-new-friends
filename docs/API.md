@@ -69,6 +69,40 @@ password: string
     ""message"": ""OK""
 }"
 ```
+# Đổi mật khẩu:
+```ruby
+/v1/account/changepw
+`put`
+```
+> Encytpe:
+```ruby
+multipart/form-data
+```
+> Request:<br>
+```ruby
+account: string
+password: string
+newpassword: string
+
+"{
+    ""account"":""benbp05"",
+    ""password"":""000000""
+}"
+```
+> Response:<br>
+```ruby
+"{
+    ""error"": 200,
+    ""token"": ""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjI3MzI4OTcsImRhdGEiOnsicm9sZUNvZGUiOjEsImhhc2hQYXNzd29yZCI6IiQyYiQxMCR4VFBpbngxWG1ZUWUvUU5wOTNadG9PQTZPb0cyLnpjWEk3L29LNVE4SUk1TUhhSFJTUGN5eSIsImlkIjoiQ0YtMDAwMDAxIn0sImlhdCI6MTYyMjcyOTI5N30.V3XB3g3sTCwl2XLBltFFlNVESr07WyFZgQGs4xkBI4I"",
+    ""id"": ""CF-000001"",
+    ""name"": ""Bùi Phó Bền"",
+    ""birthday"": ""1999-01-05"",
+    ""address"": ""Hà Nội"",
+    ""avatarUri"": ""https://mighty-plains-90447.herokuapp.com/static/ef184cd0-491c-4792-b079-fb490d737916-anhdep123.jpg"",
+    ""roleCode"": 1,
+    ""message"": ""OK""
+}"
+```
 # Đăng nhập nhà hàng:
 ```ruby
 /v1/accountRestaurant/signin
@@ -91,7 +125,37 @@ password: string
 > Response:<br>
 ```ruby
 ```
+# Đổi mật khẩu nhà hàng:
+```ruby
+/v1/account/changepwres
+`put`
+```
+> Encytpe:
+```ruby
+multipart/form-data
+```
+> Request:<br>
+```ruby
+account: string
+password: string
+newpassword: string
 
+```
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjI4MDY0NDYsImRhdGEiOnsicm9sZUNvZGUiOjMsImhhc2hQYXNzd29yZCI6IiQyYiQxMCRseHJ6MVRnUjNvR3FJTFQ3L1RQbWtPY0ZCa0tFRi9XUTFzdUR2QXRPVmRlMzBnbnM5cVplaSIsImlkIjoiUkUtMDAwMDAzIn0sImlhdCI6MTYyMjgwMjg0Nn0.jKSGHPQyJx0zMVhkrUWaLxGUlhqOI_4eTQjIAvxf9Eg",
+    "id": "RE-000003",
+    "name": "Bùi Phó Bền",
+    "description": "",
+    "address": "Hà Nội",
+    "avatarUri": "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/static\\161cb894-2b51-46b2-9b47-c45ae08cfb74-anhdep123.jpg",
+    "coverUri": "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/static\\b0f2dddf-e107-4d8a-b4ca-e49d5b6beeca-anh_20172968.jpg",
+    "roleCode": 3,
+    "message": "OK"
+}
+```
 # Customer
 ## Lấy thông tin một người dùng:
 ```ruby
