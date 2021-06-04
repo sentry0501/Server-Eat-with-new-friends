@@ -5,6 +5,8 @@ import restaurantController from '../controller/restaurantController';
 import authRestaurantMiddleware from '../middleware/authRestaurantMiddleware';
 
 import uploadDisk from '../_base/file/uploadDisk';
+import uploadImgController from '../controller/uploadImgController';
+import upload from '../_base/file/upload';
 
 const router: Router = express.Router();
 
@@ -29,13 +31,14 @@ router.post('/v1/restaurant/getbyname',
 router.put('/v1/restaurant/createone',
   // accountController.authTokenAndPassRoleCodeToResLocals,
   // authRestaurantMiddleware("create"),
-  uploadDisk.fields(
+  upload.fields(
     [{
       name: 'avatar', maxCount: 1
     }, {
       name: 'cover', maxCount: 1
     }]
   ),
+  uploadImgController.uploadResImg,
   restaurantController.createOne
 )
 
@@ -48,13 +51,14 @@ router.delete('/v1/restaurant/delete',
 router.put('/v1/restaurant/update',
   accountController.authTokenAndPassRoleCodeToResLocals,
   authRestaurantMiddleware("update"),
-  uploadDisk.fields(
+  upload.fields(
     [{
       name: 'avatar', maxCount: 1
     }, {
       name: 'cover', maxCount: 1
     }]
   ),
+  uploadImgController.uploadResImg,
   restaurantController.updateInfo
 )
 

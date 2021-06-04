@@ -20,7 +20,7 @@ export default class CustomerCreateDTO extends AbstractDTO{
     this.birthday = e.birthday;
     this.address = e.address;
     this.roleCode = e.roleCode;
-    this.avatarUri = serverConfig?.urlPrefix + e.avatarUri
+    this.avatarUri = serverConfig?.urlPrefixImg + e.avatarUri
     this.isActive = e.isActive;
     this.account = e.account;
   }

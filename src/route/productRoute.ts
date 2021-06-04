@@ -2,8 +2,8 @@ import express, { Router } from 'express';
 import accountController from '../controller/accountController';
 import productController from '../controller/productController';
 import authProductMiddleware from '../middleware/authProductMiddleware';
-
-import uploadDisk from '../_base/file/uploadDisk';
+import uploadImgController from '../controller/uploadImgController';
+import upload from '../_base/file/upload';
 
 const router: Router = express.Router();
 
@@ -45,7 +45,8 @@ router.put('/v1/product/update',
 router.put('/v1/product/updateprev',
   accountController.authTokenAndPassRoleCodeToResLocals,
   authProductMiddleware("update"),
-  uploadDisk.single("preview"),
+  upload.single("preview"),
+  uploadImgController.uploadImg,
   productController.updatePreview
 )
 

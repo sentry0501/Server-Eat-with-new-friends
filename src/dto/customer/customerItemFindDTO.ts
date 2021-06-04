@@ -12,7 +12,7 @@ export default class CustomerItemFindDTO{
     this.id = e.id;
     this.name = e.name;
     this.address = e.address;
-    this.avatarUri = serverConfig?.urlPrefix + e.avatarUri
+    this.avatarUri = serverConfig?.urlPrefixImg + e.avatarUri
     this.isActive = e.isActive;
   }
 }

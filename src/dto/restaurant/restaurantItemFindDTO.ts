@@ -15,8 +15,8 @@ export default class RestaurantItemFindDTO{
     this.name = e.name;
     this.address = e.address;
     this.description = e.description;
-    this.avatarUri = serverConfig?.urlPrefix + e.avatarUri;
-    this.coverUri = serverConfig?.urlPrefix + e.coverUri;
+    this.avatarUri = serverConfig?.urlPrefixImg + e.avatarUri;
+    this.coverUri = serverConfig?.urlPrefixImg + e.coverUri;
     this.isActive = e.isActive;
   }
 }

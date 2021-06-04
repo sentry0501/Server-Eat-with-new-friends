@@ -15,7 +15,7 @@ export default class ProductItemFindDTO{
     this.name = e.name;
     this.price = e.price;
     this.description = e.description;
-    this.previewUri = serverConfig?.urlPrefix + e.previewUri
+    this.previewUri = serverConfig?.urlPrefixImg + e.previewUri
     this.isActive = e.isActive;
   }
 }

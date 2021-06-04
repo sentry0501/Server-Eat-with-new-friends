@@ -29,6 +29,7 @@ const ormInit = async () => {
         GroupCustomerEntity,
         ProductEntity,
         PromotionEntity,
+        RestaurantEntity,
         OrderEntity,
         ReviewEntity,
       ],

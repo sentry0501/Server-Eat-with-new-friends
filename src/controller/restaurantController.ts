@@ -124,14 +124,14 @@ class RestaurantController extends AbstractController {
       // logger.debug("debug cover "+JSON.stringify(req.files.avatar[0].path))
       
       // Handle file
-      if (!req.files.avatar[0] || !req.files.avatar[0]) {
+      if (!res.locals.avatar) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_UPLOAD_AVA_ERROR);
       }
-      if (!req.files.cover[0] || !req.files.cover[0]) {
+      if (!res.locals.cover) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.RESTAURANT_UPLOAD_COVER_ERROR);
       }
-      const avatar = req.files.avatar[0].path;
-      const cover = req.files.cover[0].path;
+      const avatar = res.locals.avatar;
+      const cover = res.locals.cover;
 
       const restaurant = await restaurantService.createOne(req.body, avatar,cover);
       sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new RestaurantCreateDTO(restaurant));
