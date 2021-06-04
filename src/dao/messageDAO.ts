@@ -9,7 +9,7 @@ import { MessageEntity } from '../entity/messageEntity';
 async function getByGroupId(id: string) {
   try {
     const repository = getRepository(MessageEntity);
-    const messages = await repository.find({where:{group:{id:id}}})
+    const messages = await repository.find({where:{group:{id:id}},order:{date:'DESC'}})
     return messages;
     
   }
