@@ -62,8 +62,8 @@ async function getByName(name: string) {
     // const customers = await repository.find({name: Like('%${name}%')});
     const customers = await repository.createQueryBuilder("customer")
                                       .where("customer.name like :name", { name:`%${name}%` })
-                                      .where("customer.isActive = :isActive",{isActive:1})
-                                      .where("customer.roleCode = :roleCode",{roleCode:1})
+                                      .andWhere("customer.isActive = :isActive",{isActive:1})
+                                      .andWhere("customer.roleCode = :roleCode",{roleCode:1})
                                       .getMany();
     // logger.debug("name "+ JSON.stringify(customers))
     if (customers.length <= 0) {

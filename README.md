@@ -45,28 +45,5 @@ $ Step 1: Copy content script/dropAllTables.sql and change name database
 $ DROP PROCEDURE IF EXISTS `drop_all_tables`;
 $ Step 2: Paste to SQL script in this database on remote and execute
 ```
-# Guide
-### Turn off authentication and authorization
-```ruby
-$ Step 1:
-$ cd src/config
-$ #Edit serverConfig.ts
-$ let MODE = ENVIRONMENT_DEVELOP;
-$ #Edit serverConfig.develop.ts
-$ shouldAuth: false
-```
-```ruby
-$ Step 2: Add this block lines in (first) controller
-$ if (!serverConfig.shouldAuth) {
-    next();
-    return;
-  }
-```
-### For cheat role and auth, add a new Route like (function cheateRoleMiddleware -> set ROOT role)
-```ruby
-$ router.all('/v1/cheat/employee/createone',
-  cheatRoleMiddleware,
-  uploadDisk.single("avatar"),
-  employeeController.createOne
-)
-```
+
+

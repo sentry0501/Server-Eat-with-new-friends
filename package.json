@@ -9,7 +9,7 @@
     "cheat_d_static": "rimraf ./static/*.*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "vietnha",
+  "author": "benbp",
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^3.0.1",
