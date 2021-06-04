@@ -12,6 +12,14 @@ router.post('/v1/accountRestaurant/signin',
   uploadDisk.none(),
   accountController.restaurantSignIn
 );
+router.put('/v1/account/changepw',
+  uploadDisk.none(),
+  accountController.changepass
+);
+router.put('/v1/account/changepwres',
+  uploadDisk.none(),
+  accountController.changepassRes
+);
 
 // router.post('/v1/account/signout',
 //   accountController.signOut

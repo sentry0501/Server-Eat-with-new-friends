@@ -151,9 +151,6 @@ class CustomerService {
       // Hash Password
       e.hashPassword = await accountService.hashPassword(e.password);
 
-
-      
-
       // Gen Date
       e.birthday = dateUtil.fromString(e.birthday)
 

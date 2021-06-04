@@ -18,6 +18,19 @@ class ValidatorSignIn {
     }
     return ERR_CODE.OK;
   }
+
+  public isValidChangePass(e: any) {
+    if (!stringUtil.isValidString(e.account, 6, 20)) {
+      return ERR_CODE.ACCOUNT_INVALID_ACCOUNT;
+    }
+    if (!stringUtil.isValidString(e.password, 6, 20)) {
+      return ERR_CODE.ACCOUNT_WRONG_PASSWORD;
+    }
+    if (!stringUtil.isValidString(e.newpassword, 6, 20)) {
+      return ERR_CODE.ACCOUNT_WRONG_PASSWORD;
+    }
+    return ERR_CODE.OK;
+  }
 }
 
 export default ValidatorSignIn.Instance
