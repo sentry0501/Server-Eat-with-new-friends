@@ -5,6 +5,8 @@ import customerController from '../controller/customerController';
 import authCustomerMiddleware from '../middleware/authCustomerMiddleware';
 
 import uploadDisk from '../_base/file/uploadDisk';
+import upload from '../_base/file/upload';
+import bucket from '.././_base/file/firebase';
 
 const router: Router = express.Router();
 
@@ -44,6 +46,30 @@ router.put('/v1/customer/update',
   uploadDisk.single("avatar"),
   customerController.updateInfo
 )
+router.post('/upload', upload.single('file'), (req, res) => {
+  if(!req.file) {
+      return res.status(400).send("Error: No files found")
+  } 
+
+  const blob = bucket.file(req.file.originalname)
+  
+  const blobWriter = blob.createWriteStream({
+      metadata: {
+          contentType: req.file.mimetype
+      }
+  })
+  
+  blobWriter.on('error', (err) => {
+      console.log(err)
+  })
+  
+  blobWriter.on('finish', () => {
+      res.status(200).send("File uploaded.")
+  })
+  
+  blobWriter.end(req.file.buffer)
+})
+
 
 
 export default router;

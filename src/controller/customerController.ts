@@ -10,6 +10,7 @@ import logger from "../_base/log/logger4js";
 import AbstractController from "./abstractController";
 import CustomersDeleteDTO from "../dto/customer/customersDeleteDTO";
 import AuthorGroupRole from "../config/authorGroupRoleConfig";
+import bucket from '.././_base/file/firebase';
 
 class CustomerController extends AbstractController {
   private static _instance: CustomerController
