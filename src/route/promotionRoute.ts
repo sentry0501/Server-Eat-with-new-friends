@@ -4,6 +4,9 @@ import promotionController from '../controller/promotionController';
 import authPromotionMiddleware from '../middleware/authPromotionMiddleware';
 
 import uploadDisk from '../_base/file/uploadDisk';
+import uploadImgController from '../controller/uploadImgController';
+import upload from '../_base/file/upload';
+
 
 const router: Router = express.Router();
 
@@ -40,7 +43,8 @@ router.put('/v1/promotion/update',
 router.put('/v1/promotion/updateprev',
   accountController.authTokenAndPassRoleCodeToResLocals,
   authPromotionMiddleware("update"),
-  uploadDisk.single("preview"),
+  upload.single("preview"),
+  uploadImgController.uploadImg,
   promotionController.updatePreview
 )
 

@@ -19,7 +19,7 @@ export default class PromotionCreateDTO extends AbstractDTO{
     this.name = e.name;
     this.restaurant = new RestaurantItemFindDTO(e.restaurant);
     this.description = e.description;
-    this.previewUri = serverConfig?.urlPrefix + e.previewUri
+    this.previewUri = serverConfig?.urlPrefixImg + e.previewUri
     this.isActive = e.isActive;
   }
 }

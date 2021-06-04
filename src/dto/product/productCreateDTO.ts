@@ -21,7 +21,7 @@ export default class ProductCreateDTO extends AbstractDTO{
     this.restaurant = new RestaurantItemFindDTO(e.restaurant);
     this.price = e.price;
     this.description = e.description;
-    this.previewUri = serverConfig?.urlPrefix + e.previewUri
+    this.previewUri = serverConfig?.urlPrefixImg + e.previewUri
     this.isActive = e.isActive;
   }
 }

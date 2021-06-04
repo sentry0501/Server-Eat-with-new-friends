@@ -10,6 +10,7 @@ import groupService from "./groupService";
 import groupDAO from "../dao/groupDAO";
 import groupCustomerDAO from "../dao/groupCustomerDAO";
 
+
 class CustomerService {
   private static _instance: CustomerService
   private constructor() {
@@ -149,6 +150,9 @@ class CustomerService {
 
       // Hash Password
       e.hashPassword = await accountService.hashPassword(e.password);
+
+
+      
 
       // Gen Date
       e.birthday = dateUtil.fromString(e.birthday)

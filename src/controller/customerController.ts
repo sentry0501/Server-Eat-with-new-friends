@@ -10,6 +10,7 @@ import logger from "../_base/log/logger4js";
 import AbstractController from "./abstractController";
 import CustomersDeleteDTO from "../dto/customer/customersDeleteDTO";
 import AuthorGroupRole from "../config/authorGroupRoleConfig";
+import bucket from '.././_base/file/firebase';
 
 class CustomerController extends AbstractController {
   private static _instance: CustomerController
@@ -90,11 +91,11 @@ class CustomerController extends AbstractController {
 
       // Handle file
       let path;
-      if (!req.file || !req.file.path) {
+      if (!res.locals.url) {
         path = null;
       }
       else {
-        path = req.file.path;
+        path = res.locals.url;
       }
 
       const customer = await customerService.updateInfo(req.body, path);
@@ -118,11 +119,13 @@ class CustomerController extends AbstractController {
       }
 
 
+
+      // logger.debug("url "+res.locals.url)
       // Handle file
-      if (!req.file || !req.file.path) {
+      if (!res.locals.url) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.CUSTOMER_UPLOAD_AVA_ERROR);
       }
-      const path = req.file.path;
+      const path = res.locals.url;
 
       const customer = await customerService.createOne(req.body, path);
       sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new CustomerCreateDTO(customer));

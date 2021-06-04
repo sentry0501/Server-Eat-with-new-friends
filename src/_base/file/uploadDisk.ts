@@ -2,6 +2,8 @@ import multer, { diskStorage } from "multer"
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import * as path from "path";
+// const multer = require('multer');
+
 
 async function createIfNotExistUploadPath(uploadPath: string, func: Function) {
   fs.exists(uploadPath, function (exists: any) {
@@ -39,6 +41,5 @@ const uploadDisk = multer({
     return cb(null, isOK);
   },
 })
-
 
 export default uploadDisk

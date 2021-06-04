@@ -20,7 +20,7 @@ export default class AccountSignInDTO extends AbstractDTO {
     this.name = e.name;
     this.birthday = e.birthday;
     this.address = e.address;
-    this.avatarUri = serverConfig?.urlPrefix + e.avatarUri;
+    this.avatarUri = serverConfig?.urlPrefixImg + e.avatarUri;
     this.roleCode = e.roleCode;
   }
 }

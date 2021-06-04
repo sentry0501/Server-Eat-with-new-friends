@@ -133,11 +133,11 @@ class PromotionController extends AbstractController {
 
       // Handle file
       let path;
-      if (!req.file || !req.file.path) {
+      if (!res.locals.url) {
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.PROMOTION_UPLOAD_PREVIEW_ERROR);
       }
       else {
-        path = req.file.path;
+        path = res.locals.url;
       }
 
       const promotion = await promotionService.updatePreview(req.body.id, path);

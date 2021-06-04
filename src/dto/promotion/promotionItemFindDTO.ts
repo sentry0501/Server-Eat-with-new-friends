@@ -13,7 +13,7 @@ export default class PromotionItemFindDTO{
     this.id = e.id;
     this.name = e.name;
     this.description = e.description;
-    this.previewUri = serverConfig?.urlPrefix + e.previewUri
+    this.previewUri = serverConfig?.urlPrefixImg + e.previewUri
     this.isActive = e.isActive;
   }
 }

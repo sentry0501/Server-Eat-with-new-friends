@@ -22,6 +22,7 @@ enum ERR_CODE {
 
   //Error in try catch (when use library)
   TYPEORM_ERROR = 600,
+  UPLOAD_AVA_TO_FIREBASE_ERROR= 700,
 
 
   //Business Error from 1000:

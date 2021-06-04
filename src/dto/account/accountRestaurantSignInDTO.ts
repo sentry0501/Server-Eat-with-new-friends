@@ -21,8 +21,8 @@ export default class AccountRestaurantSignInDTO extends AbstractDTO {
     this.name = e.name;
     this.description = e.description;
     this.address = e.address;
-    this.avatarUri = serverConfig?.urlPrefix + e.avatarUri;
-    this.coverUri = serverConfig?.urlPrefix + e.coverUri;
+    this.avatarUri = serverConfig?.urlPrefixImg + e.avatarUri;
+    this.coverUri = serverConfig?.urlPrefixImg + e.coverUri;
     this.roleCode = e.roleCode;
   }
 }
