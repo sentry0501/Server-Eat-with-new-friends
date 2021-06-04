@@ -253,3 +253,98 @@ không
     "message": "OK"
 }
 ```
+# Nhắn tin
+## Tạo tin nhắn
+```ruby
+/v1/message/create
+`put`
+```
+> Encytype:<br>
+```ruby
+application/json
+```
+>Chỉ người dùng mới có quyền nên  Gắn Header:<br>
+```ruby
+Bearer <token>
+```
+> Request:<br>
+date: thoi gian đánh giá "dd-mm-yyyy"
+```ruby
+{
+	"content":"Có gái không",
+	"date":"31-05-2021 17:52:34" ,
+	"groupid":"10206179-05f0-4752-8b9b-a09c5a315fa4",
+	"customerid":"CF-000002"
+}	
+```
+
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "id": "c2b73d3e-d7b1-43eb-9558-92fb2a0836a3",
+    "date": "2021-05-31T10:52:34.000Z",
+    "customer": {
+        "id": "CF-000002",
+        "name": "Bùi Phó Bền",
+        "address": "Hà Nội",
+        "avatarUri": "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/static\\2ad99561-6b91-427f-9d0c-4f983d56afc1-default-product.jpg",
+        "isActive": true
+    },
+    "content": "Có gái không",
+    "message": "OK"
+}
+```
+## Lấy hết tin nhắn của 1 nhóm
+```ruby
+/v1/message/getbymessageid
+`post`
+```
+> Encytype:<br>
+```ruby
+application/json
+```
+>Header:<br>
+```ruby
+không
+```
+> Request:<br>
+```ruby
+{	
+	"id":"10206179-05f0-4752-8b9b-a09c5a315fa4"
+}
+```
+
+> Response:<br>
+```ruby
+{
+    "error": 200,
+    "messages": [
+        {
+            "id": "061e5b72-d832-49bc-b632-e7a242b1a96c",
+            "date": "2021-05-31T10:52:32.000Z",
+            "content": "Ê đi chơi đi",
+            "customer": {
+                "id": "CF-000003",
+                "name": "Bùi Phó Khoa",
+                "address": "Thái Bình",
+                "avatarUri": "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/a5d043a1-809d-46d6-b383-14e3cfe91b06?alt=media&token=898d814b-5567-4490-b00f-5475760d38e3",
+                "isActive": true
+            }
+        },
+        {
+            "id": "c2b73d3e-d7b1-43eb-9558-92fb2a0836a3",
+            "date": "2021-05-31T10:52:34.000Z",
+            "content": "Có gái không",
+            "customer": {
+                "id": "CF-000002",
+                "name": "Bùi Phó Bền",
+                "address": "Hà Nội",
+                "avatarUri": "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/static\\2ad99561-6b91-427f-9d0c-4f983d56afc1-default-product.jpg",
+                "isActive": true
+            }
+        }
+    ],
+    "message": "OK"
+}
+```
