@@ -11,6 +11,8 @@ import TokenDecoded from "../model/TokenDecoded";
 import systemUtil from "../util/systemUtil";
 import serverConfig from "../config/serverConfig";
 import blackTokenDAO from "../dao/blackTokenDAO";
+import customerDAO from "../dao/customerDAO";
+import restaurantDAO from "../dao/restaurantDAO";
 
 class AccountService {
   private static _instance: AccountService
@@ -159,6 +161,80 @@ class AccountService {
       throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_SIGN_IN_ERROR);
     }
   }
+
+
+
+  public async changepass(account: string, password: string, newpassword: string) {
+    try {
+      // Kiem tra xem co tai khoan khong
+      const customer = await accountDAO.getCustomerByAccount(account);
+      if (!customer) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_INVALID_ACCOUNT);
+      }
+      
+      const isRightPassword = await this.comparePassword(password, customer.hashPassword);
+      if (!isRightPassword) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_WRONG_PASSWORD);
+      }
+      customer.hashPassword = await this.hashPassword(newpassword);
+      const newCustomer = await customerDAO.save(customer);
+
+      // Sinh token de tra ve
+      const token = this.genTokenByRoleCodePassword(customer.id, customer.roleCode, customer.hashPassword);
+      return {
+        token: token,
+        customer: newCustomer
+      }
+    }
+    catch(e) {
+      if (e instanceof QueryFailedError) {
+        logger.debug(e);
+        logger.debug("QueryFailedError");
+      }
+      if (e instanceof CustomError) {
+        logger.debug('CustomError');
+        throw e;
+      }
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_CHANGEPW_IN_ERROR);
+    }
+  }
+
+
+  public async changepassrRes(account: string, password: string, newpassword: string) {
+    try {
+      // Kiem tra xem co tai khoan khong
+      const restaurant = await accountDAO.getRestaurantByAccount(account);
+      if (!restaurant) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_INVALID_ACCOUNT);
+      }
+      
+      const isRightPassword = await this.comparePassword(password, restaurant.hashPassword);
+      if (!isRightPassword) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_WRONG_PASSWORD);
+      }
+      restaurant.hashPassword = await this.hashPassword(newpassword);
+      const newRestaurant = await restaurantDAO.save(restaurant);
+
+      // Sinh token de tra ve
+      const token = this.genTokenByRoleCodePassword(newRestaurant.id, newRestaurant.roleCode, newRestaurant.hashPassword);
+      return {
+        token: token,
+        restaurant: newRestaurant
+      }
+    }
+    catch(e) {
+      if (e instanceof QueryFailedError) {
+        logger.debug(e);
+        logger.debug("QueryFailedError");
+      }
+      if (e instanceof CustomError) {
+        logger.debug('CustomError');
+        throw e;
+      }
+      throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_CHANGEPW_IN_ERROR);
+    }
+  }
+
 }
 
 export default AccountService.Instance

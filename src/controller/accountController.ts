@@ -102,6 +102,58 @@ class AccountController extends AbstractController {
     }
   }
 
+  public async changepass(req: any, res: any, next: any) {
+    try {
+      // Validate
+      logger.info('INPUT:'
+      +'\nbody:'+JSON.stringify(req.body)
+      +'\nparams:'+JSON.stringify(req.params)
+      +'\nquery:'+JSON.stringify(req.query));
+
+      // Validate input
+      const errCode = validatorSignIn.isValidChangePass(req.body);
+      if (errCode !== ERR_CODE.OK) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, errCode);
+      }
+
+      const account = req.body.account;
+      const password = req.body.password;
+      const newpassword = req.body.newpassword;
+
+      const tokenCustomer = await accountService.changepass(account, password,newpassword);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new AccountSignInDTO(tokenCustomer.token, tokenCustomer.customer));
+    }
+    catch(e) {
+      next(e);
+    }
+  }
+
+  public async changepassRes(req: any, res: any, next: any) {
+    try {
+      // Validate
+      logger.info('INPUT:'
+      +'\nbody:'+JSON.stringify(req.body)
+      +'\nparams:'+JSON.stringify(req.params)
+      +'\nquery:'+JSON.stringify(req.query));
+
+      // Validate input
+      const errCode = validatorSignIn.isValidChangePass(req.body);
+      if (errCode !== ERR_CODE.OK) {
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, errCode);
+      }
+
+      const account = req.body.account;
+      const password = req.body.password;
+      const newpassword = req.body.newpassword;
+
+      const tokenRestaurant = await accountService.changepassrRes(account, password,newpassword);
+      sendResAppJson(res, STATUS_CODE.OK, ERR_CODE.OK, new AccountRestaurantSignInDTO(tokenRestaurant.token, tokenRestaurant.restaurant));
+    }
+    catch(e) {
+      next(e);
+    }
+  }
+
 }
 
 export default AccountController.Instance
