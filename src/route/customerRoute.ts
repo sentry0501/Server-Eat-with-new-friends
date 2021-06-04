@@ -3,11 +3,12 @@ import cheatRoleMiddleware from '../cheat/cheatRoleMiddleware';
 import accountController from '../controller/accountController';
 import customerController from '../controller/customerController';
 import authCustomerMiddleware from '../middleware/authCustomerMiddleware';
+import { format } from 'util';
 
 import uploadDisk from '../_base/file/uploadDisk';
 import upload from '../_base/file/upload';
 import bucket from '.././_base/file/firebase';
-
+import { v4 as uuid } from "uuid";
 const router: Router = express.Router();
 
 router.post('/v1/customer/getbyid',
@@ -52,10 +53,15 @@ router.post('/upload', upload.single('file'), (req, res) => {
   } 
 
   const blob = bucket.file(req.file.originalname)
-  
+  const tokens = uuid()
   const blobWriter = blob.createWriteStream({
       metadata: {
-          contentType: req.file.mimetype
+          // contentType: req.file.mimetype
+          contentType: req.file.mimetype,
+          metadata: {
+            firebaseStorageDownloadTokens: tokens,
+          }
+
       }
   })
   
@@ -64,7 +70,10 @@ router.post('/upload', upload.single('file'), (req, res) => {
   })
   
   blobWriter.on('finish', () => {
-      res.status(200).send("File uploaded.")
+      
+      const url = "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/"+ req.file.originalname + "?alt=media&token=" + tokens;
+      
+      res.status(200).send("File uploaded." + url)
   })
   
   blobWriter.end(req.file.buffer)
