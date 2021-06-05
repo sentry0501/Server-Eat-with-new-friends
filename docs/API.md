@@ -399,7 +399,7 @@ avatar: .png .jpg .jpeg
 isActive: 1
 account: string
 password: string
-coverL .png .jpg .jpeg
+cover : .png .jpg .jpeg
 ```
 > Response:<br>
 ```ruby
@@ -589,7 +589,7 @@ avatar: .png .jpg .jpeg
 isActive: 1
 account: string
 password: string
-coverL .png .jpg .jpeg
+cover: .png .jpg .jpeg
 ```
 > Response:<br>
 ```ruby
