@@ -35,7 +35,11 @@ class UploadImgController extends AbstractController {
               }
           }
       })
+      const clock = setTimeout(function(){
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.UPLOAD_AVA_TO_FIREBASE_ERROR)
+      }, 10000)
       blobWriter.on('error', (err) => {
+          clearTimeout(clock)
           throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.UPLOAD_AVA_TO_FIREBASE_ERROR);
       })
       // let url = new String;
@@ -44,6 +48,7 @@ class UploadImgController extends AbstractController {
           const url = newName + "?alt=media&token=" + tokens; 
           res.locals.url = url
           // logger.debug("URRLLLLL "+res.locals.url)
+          clearTimeout(clock)
           next(); 
       })       
       blobWriter.end(req.file.buffer)
