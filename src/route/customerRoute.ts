@@ -75,7 +75,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
   
   blobWriter.on('finish', () => {
       
-      const url = "https://firebasestorage.googleapis.com/v0/b/eat-with-friend.appspot.com/o/"+ newName + "?alt=media&token=" + tokens;
+      const url = "https://firebasestorage.googleapis.com/v0/b/eatint-1677e.appspot.com/o/"+ newName + "?alt=media&token=" + tokens;
       
       res.status(200).send(url)
   })  
