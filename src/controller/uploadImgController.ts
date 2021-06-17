@@ -36,7 +36,7 @@ class UploadImgController extends AbstractController {
           }
       })
       const clock = setTimeout(function(){
-        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.UPLOAD_AVA_TO_FIREBASE_ERROR)
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.REQUEST_TIME_OUT)
       }, 10000)
       blobWriter.on('error', (err) => {
           clearTimeout(clock)
