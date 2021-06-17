@@ -84,7 +84,7 @@ class PromotionService {
         name: e.name,
         restaurant: restaurant,
         description: e.description,
-        previewUri: "default-promotion.png?alt=media&token=8f5b8b9d-121b-4aea-b6a4-68e52b6eb005",
+        previewUri: "default-promotion.png?alt=media&token=6848be9b-ad4c-4f0f-9d13-12af03d9987d",
         isActive: e.isActive === false ? false : true,
       });
 

@@ -89,7 +89,7 @@ class ProductService {
         restaurant: restaurant,
         price: e.price,
         description: e.description,
-        previewUri: "default-product.jpg?alt=media&token=a7768f70-4230-4415-8d2f-266d4cd19a25",
+        previewUri: "default-product.png?alt=media&token=95207223-dbe3-4a4d-950e-55ff23c35d92",
         isActive: e.isActive === false ? false : true,
       });
 
