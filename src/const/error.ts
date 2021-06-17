@@ -17,7 +17,7 @@ enum ERR_CODE {
   LOCKED = 423,
   TWO_EARLY = 425,
   TWO_MANY_REQUESTS = 429,
-
+  REQUEST_TIME_OUT = 408,
   INTERNAL_SERVER_ERROR = 500,
 
   //Error in try catch (when use library)
