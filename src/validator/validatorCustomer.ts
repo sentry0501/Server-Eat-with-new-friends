@@ -30,13 +30,16 @@ class ValidatorCustomer {
     if (!this.isValidAccount(e.account, 6, 20)) {
       return ERR_CODE.CUSTOMER_INVALID_ACCOUNT;
     }
-    if (!stringUtil.isValidString(e.password, 6, 20)) {
+    if (!stringUtil.isValidString(e.password.trim(), 6, 20)) {
       return ERR_CODE.CUSTOMER_INVALID_PASSWORD;
     }
     if (!this.isValidRoleCode(e.roleCode)) {
       return ERR_CODE.CUSTOMER_INVALID_ROLE;
     }
     if (!dateUtil.isValidDateBeforeNow(e.birthday)) {
+      return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
+    }
+    if (!dateUtil.isValidBirthDay(e.birthday)) {
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     return ERR_CODE.OK
@@ -55,6 +58,9 @@ class ValidatorCustomer {
       return ERR_CODE.CUSTOMER_INVALID_ROLE;
     }
     if (!dateUtil.isValidDateBeforeNow(e.birthday)) {
+      return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
+    }
+    if (!dateUtil.isValidBirthDay(e.birthday)) {
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     return ERR_CODE.OK

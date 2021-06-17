@@ -15,6 +15,9 @@ class ValidatorProduct {
     if (!stringUtil.isValidString(e.name, 0)) {
       return ERR_CODE.PRODUCT_INVALID_NAME;
     }
+    if (!stringUtil.isValidString(e.name.trim(), 0)) {
+      return ERR_CODE.PRODUCT_INVALID_NAME;
+    }
     if (!numberUtil.isOnlyDigits(e.price)) {
       return ERR_CODE.PRODUCT_INVALID_PRICE;
     }

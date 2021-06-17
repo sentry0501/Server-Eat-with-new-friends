@@ -22,6 +22,9 @@ class ValidatorOrder {
     if(!dateUtil.isValidDateTime(e.time)){
       return ERR_CODE.ORDER_INVALID_DATE;
     }
+    if(!dateUtil.isValidDateTimeAfterNow(e.time)){
+      return ERR_CODE.ORDER_INVALID_DATE;
+    }
     return ERR_CODE.OK
   }
 }

@@ -33,7 +33,7 @@ class ValidatorRestaurant {
     if (!this.isValidAccount(e.account, 6, 20)) {
       return ERR_CODE.RESTAURANT_INVALID_ACCOUNT;
     }
-    if (!stringUtil.isValidString(e.password, 6, 20)) {
+    if (!stringUtil.isValidString(e.password.trim(), 6, 20)) {
       return ERR_CODE.RESTAURANT_INVALID_PASSWORD;
     }
     if (!this.isValidRoleCode(e.roleCode)) {

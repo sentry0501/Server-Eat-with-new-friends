@@ -58,8 +58,44 @@ function isValidDateTimeBeforeNow(str: string) {
   }
 }
 
+function isValidDateTimeAfterNow(str: string) {
+
+  const format = "DD-MM-YYYY HH:mm:ss";
+  const isValid =  str && typeof str === "string" && moment(str, format, true).isValid();
+
+  if (!isValid) {
+    return false;
+  }
+  else {
+    const datetime = fromTimeString(str);
+    let nowDate = new Date();
+    nowDate.setHours(nowDate.getHours()+7);
+    return datetime > nowDate;
+  }
+}
+
+function isValidBirthDay(str: string) {
+
+  const format = "DD-MM-YYYY HH:mm:ss";
+  const isValid =  str && typeof str === "string" && moment(str, format, true).isValid();
+
+  if (!isValid) {
+    return false;
+  }
+  else {
+    const datetime = fromTimeString(str);
+    let nowDate = new Date();
+    nowDate.setHours(nowDate.getHours()+7);
+    nowDate.setFullYear(nowDate.getFullYear()-100);
+    return datetime > nowDate;
+  }
+}
+
+
 
 const dateUtil = {
+  isValidBirthDay,
+  isValidDateTimeAfterNow,
   isValidDate,
   isValidDateBeforeNow,
   fromString,
