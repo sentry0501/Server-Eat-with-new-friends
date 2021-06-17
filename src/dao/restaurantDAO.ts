@@ -36,7 +36,7 @@ async function deleteByIds(ids: Array<string>) {
 async function getById(id: string) {
   try {
     const repository = getRepository(RestaurantEntity);
-    const restaurants = await repository.find({id: id});
+    const restaurants = await repository.find({where: {id: id,isActive:true}});
     if (restaurants.length <= 0) {
       return null;
     }
@@ -57,6 +57,7 @@ async function getByName(name: string) {
     // const customers = await repository.find({name: Like('%${name}%')});
     const restaurants = await repository.createQueryBuilder("restaurant")
                                       .where("restaurant.name like :name", { name:`%${name}%` })
+                                      .andWhere("restaurant.isActive = :isActive",{isActive:1})
                                       .getMany();
     // logger.debug("name "+ JSON.stringify(restaurants))
     // if (restaurants.length <= 0) {

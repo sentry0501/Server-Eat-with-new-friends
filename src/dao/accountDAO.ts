@@ -7,7 +7,7 @@ import { RestaurantEntity } from "../entity/restaurantEntity";
 async function getCustomerByAccount(account: string) {
   try {
     const repository = getRepository(CustomerEntity);
-    const customers = await repository.find({account: account});
+    const customers = await repository.find({where: {account: account, isActive:true}});
     if (customers.length <= 0) {
       return null;
     }
@@ -23,7 +23,7 @@ async function getCustomerByAccount(account: string) {
 async function getRestaurantByAccount(account: string) {
   try {
     const repository = getRepository(RestaurantEntity);
-    const restaurants = await repository.find({account: account});
+    const restaurants = await repository.find({where: {account: account,isActive:true}});
     if (restaurants.length <= 0) {
       return null;
     }
