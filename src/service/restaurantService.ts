@@ -6,6 +6,8 @@ import CustomError from '../error/customError';
 import logger from "../_base/log/logger4js";
 import dateUtil from "../util/dateUtil";
 import accountService from "./accountService";
+import groupDAO from "../dao/groupDAO";
+import groupCustomerDAO from "../dao/groupCustomerDAO";
 
 class RestaurantService {
   private static _instance: RestaurantService
@@ -73,10 +75,19 @@ class RestaurantService {
   }
   public async delete(ids: Array<string>) {
     try {
+
+      for(const id of ids){
+        const groups = await groupDAO.getByRestaurantId(id);
+        const grids = groups.map((e) => e.id);
+        const arr = await groupDAO.deleteByIds(grids);
+      }
+
+
       const restaurants = await restaurantDAO.deleteByIds(ids);
       const deletedIds = restaurants.map((e) => e.id);
       // const deletedIds = restaurants;
       logger.debug("Delete" + deletedIds)
+
       return deletedIds;
     }
     catch {

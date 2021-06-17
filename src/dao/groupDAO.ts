@@ -108,6 +108,20 @@ async function deleteByIds(ids: Array<string>) {
   }
 }
 
+async function getByRestaurantId(id:string) {
+  try {
+    const repository = getRepository(GroupEntity);
+    const group = await repository.find({restaurant: {id: id}});
+
+    return group;
+    
+  }
+  catch(e) {
+    throw e;
+  }
+  
+}
+
 
 const groupDAO = {
   // getMaxProductId,
@@ -119,6 +133,7 @@ const groupDAO = {
   save,
   update,
   deleteByIds,
+  getByRestaurantId,
 }
 
 export default groupDAO;
