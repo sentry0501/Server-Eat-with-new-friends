@@ -111,6 +111,11 @@ class OrderService {
       if(group.leader.id !== e.leader){
         throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ACCOUNT_NO_PERMISSION);
       }
+      const exit = await orderDAO.getByGroupId(e.groupid);
+      if(exit != null){
+        throw new CustomError(STATUS_CODE.BAD_REQUEST, ERR_CODE.ALREADY_ORDERED);
+      }
+
 
       // Create Order to save
       let newOrder = orderDAO.create({
