@@ -4,6 +4,7 @@ import businessUtil from "../util/businessUtil";
 import dateUtil from "../util/dateUtil";
 import numberUtil from "../util/numberUtil";
 import stringUtil from "../util/stringUtil";
+import logger from "../_base/log/logger4js";
 
 class ValidatorCustomer {
   private static _instance: ValidatorCustomer
@@ -37,9 +38,11 @@ class ValidatorCustomer {
       return ERR_CODE.CUSTOMER_INVALID_ROLE;
     }
     if (!dateUtil.isValidDateBeforeNow(e.birthday)) {
+      // logger.debug("haha "+e.birthday)
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     if (!dateUtil.isValidBirthDay(e.birthday)) {
+      // logger.debug("haha "+e.birthday)
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     return ERR_CODE.OK
@@ -58,9 +61,11 @@ class ValidatorCustomer {
       return ERR_CODE.CUSTOMER_INVALID_ROLE;
     }
     if (!dateUtil.isValidDateBeforeNow(e.birthday)) {
+      // logger.debug("haha "+e.birthday)
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     if (!dateUtil.isValidBirthDay(e.birthday)) {
+      // logger.debug("haha "+e.birthday)
       return ERR_CODE.CUSTOMER_INVALID_BIRTHDAY;
     }
     return ERR_CODE.OK

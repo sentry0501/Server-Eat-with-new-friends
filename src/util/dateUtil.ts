@@ -76,17 +76,18 @@ function isValidDateTimeAfterNow(str: string) {
 
 function isValidBirthDay(str: string) {
 
-  const format = "DD-MM-YYYY HH:mm:ss";
+  const format = "DD-MM-YYYY";
   const isValid =  str && typeof str === "string" && moment(str, format, true).isValid();
 
   if (!isValid) {
     return false;
   }
   else {
-    const datetime = fromTimeString(str);
+    const datetime = fromString(str);
     let nowDate = new Date();
     nowDate.setHours(nowDate.getHours()+7);
     nowDate.setFullYear(nowDate.getFullYear()-100);
+    // logger.debug("birth day: "+ nowDate);
     return datetime > nowDate;
   }
 }
